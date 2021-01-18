@@ -1,7 +1,14 @@
+import 'package:expenses_app/screens/home/add_expenses.dart';
+import 'package:expenses_app/screens/home/home2.dart';
 import 'package:expenses_app/services/auth.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
 
   @override
@@ -12,20 +19,40 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 15.0,
         title: Text(
-          '支出リスト',
+          'rita',
           style: TextStyle(
             fontStyle: FontStyle.italic,
             color: Colors.black,
           ),
         ),
         actions: [
-          FlatButton.icon(
-              icon: Icon(Icons.logout),
-              label: Text('ログアウト'),
-              onPressed: () async {
-                await _auth.signOut();
-              }),
+          //相方の支出リストへ移動
+          IconButton(
+            icon: Icon(Icons.supervisor_account),
+            color: Colors.black,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Home2(),
+                  ));
+            },
+          ),
         ],
+      ),
+      //
+      body: ListView(),
+      //支出の追加入力フォーム
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.playlist_add_outlined),
+        backgroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddExpenses(),
+              ));
+        },
       ),
     );
   }
