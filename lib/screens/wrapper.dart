@@ -1,4 +1,5 @@
 import 'package:expenses_app/model/user.dart';
+import 'package:expenses_app/screens/authenticate/authenticate.dart';
 import 'package:expenses_app/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,10 @@ class Wrapper extends StatelessWidget {
     // todo: user情報があればHomeへ、なければRegisterへ遷移する処理を書く
     //ログインシステムに関しては後に決定
 
-    return Home();
+    if (user == null) {
+      return Authenticate();
+    } else {
+      return Home();
+    }
   }
 }

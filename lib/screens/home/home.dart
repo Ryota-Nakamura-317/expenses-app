@@ -38,6 +38,13 @@ class _HomeState extends State<Home> {
                   ));
             },
           ),
+          IconButton(
+            icon: Icon(Icons.logout),
+            color: Colors.black,
+            onPressed: () async {
+              await _auth.signOut();
+            },
+          ),
         ],
       ),
       //

@@ -1,13 +1,16 @@
-import 'package:expenses_app/screens/register/loading.dart';
+import 'package:expenses_app/screens/authenticate/loading.dart';
 import 'package:expenses_app/services/auth.dart';
 import 'package:flutter/material.dart';
 
-class Register extends StatefulWidget {
+class SignIn extends StatefulWidget {
+  final Function toggleView;
+  SignIn({this.toggleView});
+
   @override
-  _RegisterState createState() => _RegisterState();
+  _SignInState createState() => _SignInState();
 }
 
-class _RegisterState extends State<Register> {
+class _SignInState extends State<SignIn> {
   //データ呼び出し専用のauth.dartの呼び出し
   //これでAuthServiceがこのクラスでも使用可能となる
   final AuthService _auth = AuthService();
@@ -31,12 +34,21 @@ class _RegisterState extends State<Register> {
               backgroundColor: Colors.white,
               elevation: 15.0,
               title: Text(
-                'New Account',
+                'Sign In',
                 style: TextStyle(
                   fontStyle: FontStyle.italic,
                   color: Colors.black,
                 ),
               ),
+              actions: [
+                FlatButton.icon(
+                  onPressed: () {
+                    widget.toggleView();
+                  },
+                  icon: Icon(Icons.person),
+                  label: Text('登録'),
+                ),
+              ],
             ),
             body: Container(
               padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -70,7 +82,7 @@ class _RegisterState extends State<Register> {
                     SizedBox(height: 50.0),
                     RaisedButton(
                       child: Text(
-                        '登録',
+                        'ログイン',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -80,10 +92,10 @@ class _RegisterState extends State<Register> {
                         if (_formKey.currentState.validate()) {
                           setState(() => loading = true);
                           dynamic result = await _auth
-                              .registerWithEmailAndPassword(email, password);
+                              .signInWithEmailAndPassword(email, password);
                           if (result == null) {
                             setState(() {
-                              error = '有効なメールアドレスを入力してください。';
+                              error = 'ユーザー情報が間違っています。';
                               loading = false;
                             });
                           }
