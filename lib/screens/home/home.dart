@@ -1,32 +1,43 @@
-import 'package:expenses_app/screens/home/add_expenses.dart';
 import 'package:expenses_app/screens/home/home2.dart';
 import 'package:expenses_app/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:tab_indicator_styler/tab_indicator_styler.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-  final List<Tab> tabs = List.generate(10, (index) {
-    var now = DateTime.now();
-    var date = DateTime(now.year, now.month + index, now.day);
-    String dateDisplay = DateFormat('yMMM').format(date);
-    return Tab(text: dateDisplay);
-  });
+class _HomeState extends State<Home> {
+  final AuthService _auth = AuthService();
+  CalendarController _controller;
+  Map<DateTime, List<dynamic>> _events;
+  //テキストフィールドに入力した内容の表示
+  TextEditingController _eventController;
 
-  TabController _tabController;
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: tabs.length, vsync: this);
+    _controller = CalendarController();
+    _eventController = TextEditingController();
+    _events = {};
   }
 
-//class _HomeState extends State<Home> {
-  final AuthService _auth = AuthService();
+  Map<String, dynamic> encodeMap(Map<DateTime, dynamic> map) {
+    Map<String, dynamic> newMap = {};
+    map.forEach((key, value) {
+      newMap[key.toString()] = map[key];
+    });
+    return newMap;
+  }
+
+  Map<DateTime, dynamic> decodeMap(Map<String, dynamic> map) {
+    Map<DateTime, dynamic> newMap = {};
+    map.forEach((key, value) {
+      newMap[DateTime.parse(key)] = map[key];
+    });
+    return newMap;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +55,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ),
         ),
         actions: [
-          //相方の支出リストへ移動
           IconButton(
             icon: Icon(Icons.supervisor_account),
             color: Colors.black,
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Home2(),
-                  ));
+                context,
+                MaterialPageRoute(builder: (context) => Home2()),
+              );
             },
           ),
           IconButton(
@@ -64,54 +73,66 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             },
           ),
         ],
-        bottom: TabBar(
-          isScrollable: true,
-          tabs: tabs,
-          labelColor: Colors.black,
-          controller: _tabController,
-          unselectedLabelColor: Colors.grey,
-          indicatorColor: Colors.black,
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicatorWeight: 2.0,
-          indicatorPadding: EdgeInsets.symmetric(
-            horizontal: 18.0,
-            vertical: 8.0,
-          ),
-          indicator: DotIndicator(
-            color: Colors.black,
-            distanceFromCenter: 16,
-            radius: 3,
-            paintingStyle: PaintingStyle.fill,
-          ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TableCalendar(
+              events: _events,
+              calendarStyle: CalendarStyle(
+                todayColor: Colors.black,
+                selectedColor: Colors.grey[500],
+                todayStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 19.0,
+                  color: Colors.white,
+                ),
+              ),
+              headerStyle: HeaderStyle(
+                centerHeaderTitle: true,
+                titleTextStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22.0,
+                ),
+                formatButtonShowsNext: false,
+              ),
+              calendarController: _controller,
+            )
+          ],
         ),
       ),
-
-      //
-      body: TabBarView(
-        controller: _tabController,
-        children: tabs.map((tab) {
-          return _createTab(tab);
-        }).toList(),
-      ),
-
-      //支出の追加入力フォーム
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.playlist_add_outlined),
         backgroundColor: Colors.black,
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddExpenses(),
-              ));
-        },
+        onPressed: _showAddDialog(),
       ),
     );
   }
 
-  Widget _createTab(Tab tab) {
-    return Center(
-      child: Text('リスト'),
+  _showAddDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: TextField(
+          controller: _eventController,
+        ),
+        actions: [
+          FlatButton(
+            onPressed: () {
+              setState(() {
+                if (_eventController.text.isEmpty) return;
+                if (_events[_controller.selectedDay] != null) {
+                  _events[_controller.selectedDay].add(_eventController.text);
+                } else {
+                  _events[_controller.selectedDay] = [_eventController.text];
+                }
+              });
+            },
+            child: Text('save'),
+          ),
+        ],
+      ),
     );
   }
 }
