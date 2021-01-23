@@ -9,9 +9,6 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
 
-    // todo: user情報があればHomeへ、なければRegisterへ遷移する処理を書く
-    //ログインシステムに関しては後に決定
-
     if (user == null) {
       return Authenticate();
     } else {
