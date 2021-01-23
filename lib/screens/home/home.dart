@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:expenses_app/screens/home/expenses_list.dart';
 import 'package:expenses_app/screens/home/home2.dart';
 import 'package:expenses_app/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -146,9 +147,7 @@ class _HomeState extends State<Home> {
               calendarController: _controller,
             ),
             ..._selectedEvents.map(
-              (event) => ListTile(
-                title: Text(event),
-              ),
+              (event) => ExpensesList(),
             ),
           ],
         ),

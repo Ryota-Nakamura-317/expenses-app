@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expenses_app/model/expenses_data.dart';
 
 class DatabaseService {
   final String uid;
@@ -13,5 +14,19 @@ class DatabaseService {
       'price': price,
       'createdAt': createdAt,
     });
+  }
+
+  List<ExpensesData> _expensesListFormSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return ExpensesData(
+        payment: doc.data()['payment'] ?? '0',
+        price: doc.data()['price'] ?? '0',
+        createdAt: doc.data()['createdAt'] ?? '',
+      );
+    }).toList();
+  }
+
+  Stream<List<ExpensesData>> get expenses {
+    return expensesCollection.snapshots().map(_expensesListFormSnapshot);
   }
 }

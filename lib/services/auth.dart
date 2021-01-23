@@ -1,4 +1,4 @@
-import 'package:expenses_app/model/user.dart';
+import 'package:expenses_app/model/expenses_data.dart';
 import 'package:expenses_app/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -6,12 +6,16 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //create user based on firebase
-  UserData _userFromFirebase(User user) {
-    return user != null ? UserData(uid: user.uid) : null;
+  ExpensesUser _userFromFirebase(User user) {
+    if (user != null) {
+      return ExpensesUser(uid: user.uid);
+    } else {
+      return null;
+    }
   }
 
   //auth change user stream
-  Stream<UserData> get user {
+  Stream<ExpensesUser> get user {
     return _auth.authStateChanges().map(_userFromFirebase);
   }
 
