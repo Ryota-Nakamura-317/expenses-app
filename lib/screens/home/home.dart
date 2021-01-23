@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:expenses_app/screens/home/home2.dart';
 import 'package:expenses_app/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Home extends StatefulWidget {
@@ -12,8 +15,11 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
+  List<dynamic> _selectedEvents;
   //テキストフィールドに入力した内容の表示
   TextEditingController _eventController;
+  //ローカルにデータを保存
+  SharedPreferences prefs;
 
   @override
   void initState() {
@@ -21,6 +27,16 @@ class _HomeState extends State<Home> {
     _controller = CalendarController();
     _eventController = TextEditingController();
     _events = {};
+    _selectedEvents = [];
+    initPrefs();
+  }
+
+  initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _events = Map<DateTime, List<dynamic>>.from(
+          decodeMap(json.decode(prefs.getString('events') ?? '{}')));
+    });
   }
 
   Map<String, dynamic> encodeMap(Map<DateTime, dynamic> map) {
@@ -81,7 +97,7 @@ class _HomeState extends State<Home> {
             TableCalendar(
               events: _events,
               calendarStyle: CalendarStyle(
-                todayColor: Colors.black,
+                todayColor: Colors.blueGrey,
                 selectedColor: Colors.grey[500],
                 todayStyle: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -97,15 +113,50 @@ class _HomeState extends State<Home> {
                 ),
                 formatButtonShowsNext: false,
               ),
+              onDaySelected: (date, events, holidays) {
+                setState(() {
+                  _selectedEvents = events;
+                });
+              },
+              builders: CalendarBuilders(
+                selectedDayBuilder: (context, date, events) => Container(
+                  margin: const EdgeInsets.all(4.0),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[500], shape: BoxShape.circle),
+                  child: Text(
+                    date.day.toString(),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                todayDayBuilder: (context, date, events) => Container(
+                  margin: const EdgeInsets.all(4.0),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.blueGrey, shape: BoxShape.circle),
+                  child: Text(
+                    date.day.toString(),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
               calendarController: _controller,
-            )
+            ),
+            ..._selectedEvents.map(
+              (event) => ListTile(
+                title: Text(event),
+              ),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.playlist_add_outlined),
         backgroundColor: Colors.black,
-        onPressed: _showAddDialog(),
+        onPressed: _showAddDialog,
       ),
     );
   }
@@ -119,17 +170,21 @@ class _HomeState extends State<Home> {
         ),
         actions: [
           FlatButton(
+            child: Text('save'),
             onPressed: () {
+              if (_eventController.text.isEmpty) return;
               setState(() {
-                if (_eventController.text.isEmpty) return;
                 if (_events[_controller.selectedDay] != null) {
                   _events[_controller.selectedDay].add(_eventController.text);
                 } else {
                   _events[_controller.selectedDay] = [_eventController.text];
                 }
+                //SharedPreferencesを使ってStringの読み込み
+                prefs.setString('events', json.encode(encodeMap(_events)));
+                _eventController.clear();
+                Navigator.pop(context);
               });
             },
-            child: Text('save'),
           ),
         ],
       ),
