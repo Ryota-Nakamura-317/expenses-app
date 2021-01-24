@@ -22,6 +22,60 @@ class SignUpPage extends StatelessWidget {
             ),
           ),
         ),
+        body: Container(
+          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+          child: Center(
+            child: Column(
+              //mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 50.0),
+                TextFormField(
+                  //入力中はdoneがnextになり、押下後に下のテキストフォームに移動
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    labelText: 'email',
+                    labelStyle: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    border: InputBorder.none,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.0),
+                TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'password',
+                    labelStyle: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    border: InputBorder.none,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 50.0),
+                RaisedButton(
+                  color: Colors.blueGrey,
+                  child: Text(
+                    '新規登録',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
