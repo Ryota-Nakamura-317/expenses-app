@@ -1,5 +1,6 @@
+/*
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses_app/model/expenses_data.dart';
+import 'package:expenses_app/bin/model/model/expenses_data.dart';
 
 class DatabaseService {
   final String uid;
@@ -30,3 +31,4 @@ class DatabaseService {
     return expensesCollection.snapshots().map(_expensesListFormSnapshot);
   }
 }
+*/

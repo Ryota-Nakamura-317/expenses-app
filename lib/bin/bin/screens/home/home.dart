@@ -1,7 +1,8 @@
+/*
 import 'dart:convert';
 
-import 'package:expenses_app/screens/home/expenses_list.dart';
-import 'package:expenses_app/screens/home/home2.dart';
+import 'package:expenses_app/bin/model/screens/home/expenses_list.dart';
+import 'package:expenses_app/bin/model/screens/home/home2.dart';
 import 'package:expenses_app/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -114,7 +115,7 @@ class _HomeState extends State<Home> {
                 ),
                 formatButtonShowsNext: false,
               ),
-              onDaySelected: (date, events, holidays) {
+              onDaySelected: (date, events, _) {
                 setState(() {
                   _selectedEvents = events;
                 });
@@ -190,3 +191,4 @@ class _HomeState extends State<Home> {
     );
   }
 }
+*/

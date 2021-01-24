@@ -1,5 +1,4 @@
-import 'package:expenses_app/screens/authenticate/loading.dart';
-import 'package:expenses_app/services/auth.dart';
+/*
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -117,3 +116,4 @@ class _RegisterState extends State<Register> {
           );
   }
 }
+*/

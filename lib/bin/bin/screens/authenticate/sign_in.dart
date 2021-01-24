@@ -1,4 +1,5 @@
-import 'package:expenses_app/screens/authenticate/loading.dart';
+/*
+import 'package:expenses_app/bin/model/screens/authenticate/loading.dart';
 import 'package:expenses_app/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -117,3 +118,4 @@ class _SignInState extends State<SignIn> {
           );
   }
 }
+*/

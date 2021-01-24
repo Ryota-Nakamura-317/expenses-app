@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ExpensesUser {
   final String uid;
   ExpensesUser({this.uid});
@@ -6,7 +8,7 @@ class ExpensesUser {
 class ExpensesData {
   final String payment;
   final String price;
-  final String createdAt;
+  Timestamp createdAt;
 
   ExpensesData({this.payment, this.price, this.createdAt});
 }

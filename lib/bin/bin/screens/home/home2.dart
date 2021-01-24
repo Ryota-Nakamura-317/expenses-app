@@ -1,4 +1,5 @@
-import 'package:expenses_app/screens/home/add_expenses.dart';
+/*
+import 'package:expenses_app/bin/model/screens/home/add_expenses.dart';
 import 'package:expenses_app/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -93,3 +94,4 @@ class _Home2State extends State<Home2> {
     );
   }
 }
+*/

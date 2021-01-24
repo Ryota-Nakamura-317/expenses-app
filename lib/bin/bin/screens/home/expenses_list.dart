@@ -1,5 +1,6 @@
-import 'package:expenses_app/model/expenses_data.dart';
-import 'package:expenses_app/screens/home/expenses_tile.dart';
+/*
+import 'package:expenses_app/bin/model/model/expenses_data.dart';
+import 'package:expenses_app/bin/model/screens/home/expenses_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,3 +22,4 @@ class _ExpensesListState extends State<ExpensesList> {
     );
   }
 }
+*/

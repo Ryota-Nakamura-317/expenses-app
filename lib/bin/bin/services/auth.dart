@@ -1,5 +1,6 @@
-import 'package:expenses_app/model/expenses_data.dart';
-import 'package:expenses_app/services/database.dart';
+/*
+import 'package:expenses_app/bin/model/model/expenses_data.dart';
+import 'package:expenses_app/bin/model/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -57,3 +58,4 @@ class AuthService {
     }
   }
 }
+*/

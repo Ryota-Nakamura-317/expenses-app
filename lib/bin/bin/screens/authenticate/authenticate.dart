@@ -1,5 +1,6 @@
-import 'package:expenses_app/screens/authenticate/register.dart';
-import 'package:expenses_app/screens/authenticate/sign_in.dart';
+/*
+import 'package:expenses_app/bin/model/screens/authenticate/register.dart';
+import 'package:expenses_app/bin/model/screens/authenticate/sign_in.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
@@ -22,3 +23,4 @@ class _AuthenticateState extends State<Authenticate> {
     }
   }
 }
+*/
