@@ -1,5 +1,5 @@
-import 'package:expenses_app/signin_page.dart';
-import 'package:expenses_app/signup_page.dart';
+import 'package:expenses_app/signin/signin_page.dart';
+import 'package:expenses_app/signup/signup_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';

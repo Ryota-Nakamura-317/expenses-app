@@ -1,4 +1,4 @@
-import 'package:expenses_app/signin_model.dart';
+import 'package:expenses_app/signin/signin_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
