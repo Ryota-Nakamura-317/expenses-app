@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 
 class SignInModel extends ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  String email = '';
+  String password = '';
 
-  Future signInWithEmailAndPassword(String email, String password) async {
-    try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } catch (e) {
-      print(e.toString());
-    }
+  Future signIn() async {
+    await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    //todo ここでuid取得して端末に保存してからfirestore読み込み？
   }
 }

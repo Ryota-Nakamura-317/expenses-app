@@ -1,3 +1,4 @@
+import 'package:expenses_app/showdialog.dart';
 import 'package:expenses_app/signin/signin_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +6,11 @@ import 'package:provider/provider.dart';
 class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //TextEditingControllerで入力文字のローカル保持
+    final _emailController = TextEditingController();
+    final _passwordController = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+
     return ChangeNotifierProvider<SignInModel>(
       create: (_) => SignInModel(),
       child: Scaffold(
@@ -23,60 +29,91 @@ class SignInPage extends StatelessWidget {
             ),
           ),
         ),
-        body: Container(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-          child: Center(
-            child: Column(
-              //mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 50.0),
-                TextFormField(
-                  //入力中はdoneがnextになり、押下後に下のテキストフォームに移動
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    labelText: 'email',
-                    labelStyle: TextStyle(
-                      color: Colors.grey,
-                    ),
-                    border: InputBorder.none,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blueGrey,
+        body: Consumer<SignInModel>(builder: (context, model, child) {
+          return Container(
+            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  SizedBox(height: 50.0),
+                  TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'メールアドレスを入力してください。';
+                      }
+                      return null;
+                    },
+                    controller: _emailController,
+                    //入力中はdoneがnextになり、押下後に下のテキストフォームに移動
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      labelText: 'email',
+                      labelStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blueGrey,
+                        ),
                       ),
                     ),
+                    onChanged: (text) {
+                      model.email = text;
+                    },
                   ),
-                ),
-                SizedBox(height: 20.0),
-                TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'password',
-                    labelStyle: TextStyle(
-                      color: Colors.grey,
-                    ),
-                    border: InputBorder.none,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blueGrey,
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    validator: (value) {
+                      if (value.length < 8) {
+                        return '８文字以上のパスワードを入力してください。';
+                      }
+                      return null;
+                    },
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'password',
+                      labelStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blueGrey,
+                        ),
                       ),
                     ),
+                    onChanged: (text) {
+                      model.password = text;
+                    },
                   ),
-                ),
-                SizedBox(height: 50.0),
-                RaisedButton(
-                  color: Colors.blueGrey,
-                  child: Text(
-                    'サインイン',
-                    style: TextStyle(
-                      color: Colors.white,
+                  SizedBox(height: 50.0),
+                  RaisedButton(
+                    color: Colors.blueGrey,
+                    child: Text(
+                      'サインイン',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
+                    onPressed: () async {
+                      if (_formKey.currentState.validate()) {
+                        try {
+                          await model.signIn();
+                          SuccessShowDialog(context, 'ログイン完了');
+                        } catch (e) {
+                          ErrorShowDialog(context, '正しい情報を入力してください。');
+                        }
+                      }
+                    },
                   ),
-                  onPressed: () {},
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:expenses_app/showdialog.dart';
 import 'package:expenses_app/signup/signup_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +9,8 @@ class SignUpPage extends StatelessWidget {
     //TextEditingControllerで入力文字のローカル保持
     final _emailController = TextEditingController();
     final _passwordController = TextEditingController();
-    //validationのためのKey設定
     final _formKey = GlobalKey<FormState>();
+
     return ChangeNotifierProvider<SignUpModel>(
       create: (_) => SignUpModel(),
       child: Scaffold(
@@ -30,15 +31,19 @@ class SignUpPage extends StatelessWidget {
         body: Consumer<SignUpModel>(builder: (context, model, child) {
           return Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-            child: Center(
+            child: Form(
               key: _formKey,
               child: Column(
                 //mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(height: 50.0),
                   TextFormField(
-                    validator: (value) =>
-                        value.isEmpty ? 'メールアドレスを入力してください。' : null,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'メールアドレスを入力してください。';
+                      }
+                      return null;
+                    },
                     controller: _emailController,
                     //入力中はdoneがnextになり、押下後に下のテキストフォームに移動
                     textInputAction: TextInputAction.next,
@@ -60,8 +65,12 @@ class SignUpPage extends StatelessWidget {
                   ),
                   SizedBox(height: 20.0),
                   TextFormField(
-                    validator: (value) =>
-                        value.length < 8 ? 'パスワードは８文字以上で設定してください。' : null,
+                    validator: (value) {
+                      if (value.length < 8) {
+                        return '８文字以上のパスワードを入力してください。';
+                      }
+                      return null;
+                    },
                     controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -91,9 +100,11 @@ class SignUpPage extends StatelessWidget {
                     ),
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        dynamic result = await model.signUp();
-                        if (result == null) {
-                          return null;
+                        try {
+                          await model.signUp();
+                          SuccessShowDialog(context, '登録完了');
+                        } catch (e) {
+                          ErrorShowDialog(context, '正しい情報を入力してください。');
                         }
                       }
                     },
