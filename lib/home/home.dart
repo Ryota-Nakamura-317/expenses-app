@@ -1,4 +1,4 @@
-import 'package:expenses_app/main_model.dart';
+import 'package:expenses_app/home/home_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
