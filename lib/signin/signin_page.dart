@@ -1,5 +1,6 @@
 import 'package:expenses_app/showdialog.dart';
 import 'package:expenses_app/signin/signin_model.dart';
+import 'package:expenses_app/signup/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,20 @@ class SignInPage extends StatelessWidget {
               color: Colors.black,
             ),
           ),
+          actions: [
+            FlatButton.icon(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SignUpPage(),
+                  ),
+                );
+              },
+              icon: Icon(Icons.person_outlined),
+              label: Text('新規登録'),
+            ),
+          ],
         ),
         body: Consumer<SignInModel>(builder: (context, model, child) {
           return Container(

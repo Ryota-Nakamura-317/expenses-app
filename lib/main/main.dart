@@ -1,4 +1,4 @@
-import 'package:expenses_app/signin/signin_page.dart';
+import 'package:expenses_app/home/home.dart';
 import 'package:expenses_app/signup/signup_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Expenses App',
       home: MyHome(),
     );
   }
@@ -63,7 +64,7 @@ class MyHome extends StatelessWidget {
             FlatButton(
               onPressed: () {
                 //新規登録画面へ遷移
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => SignUpPage(),
@@ -76,11 +77,11 @@ class MyHome extends StatelessWidget {
             SizedBox(height: 20.0),
             FlatButton(
               onPressed: () {
-                //todo: ログイン画面へ遷移
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SignInPage(),
+                    //todo 後でサインインページに変更！
+                    builder: (context) => HomePage(),
                   ),
                 );
               },

@@ -1,6 +1,8 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:expenses_app/home/home.dart';
 import 'package:flutter/material.dart';
 
+//サインイン、サインアップ成功時のダイアログ
 Future SuccessShowDialog(BuildContext context, String title) {
   AwesomeDialog(
     context: context,
@@ -9,11 +11,19 @@ Future SuccessShowDialog(BuildContext context, String title) {
     dialogType: DialogType.SUCCES,
     title: 'Success',
     desc: title,
-    btnOkOnPress: () {},
+    btnOkOnPress: () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => HomePage(),
+        ),
+      );
+    },
     btnOkIcon: Icons.check_circle,
   )..show();
 }
 
+//サインイン、サインアップ失敗時のダイアログ
 Future ErrorShowDialog(BuildContext context, String title) {
   AwesomeDialog(
       context: context,
