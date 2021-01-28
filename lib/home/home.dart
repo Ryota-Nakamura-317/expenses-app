@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:expenses_app/home/add_page.dart';
 import 'package:expenses_app/main/main.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -67,6 +68,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        elevation: 10.0,
         title: Text(
           'Flutter Calendar',
           style: TextStyle(
@@ -122,8 +124,9 @@ class _HomePageState extends State<HomePage> {
                     margin: const EdgeInsets.all(4.0),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(10.0)),
+                      color: Colors.grey,
+                      shape: BoxShape.circle,
+                    ),
                     child: Text(
                       date.day.toString(),
                       style: TextStyle(color: Colors.white),
@@ -132,8 +135,9 @@ class _HomePageState extends State<HomePage> {
                     margin: const EdgeInsets.all(4.0),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(10.0)),
+                      color: Colors.black,
+                      shape: BoxShape.circle,
+                    ),
                     child: Text(
                       date.day.toString(),
                       style: TextStyle(color: Colors.white),
@@ -150,7 +154,15 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueGrey,
         child: Icon(Icons.add),
-        onPressed: _showAddDialog,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddPricePage(),
+              fullscreenDialog: true,
+            ),
+          );
+        },
       ),
     );
   }
