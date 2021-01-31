@@ -1,3 +1,4 @@
+import 'package:expenses_app/home/add_page.dart';
 import 'package:expenses_app/home/home_model.dart';
 import 'package:expenses_app/main/main.dart';
 import 'package:flutter/material.dart';
@@ -41,10 +42,77 @@ class HomePage extends StatelessWidget {
           ],
         ),
         body: Consumer<HomePageModel>(builder: (context, model, child) {
-          return TableCalendar(
-            calendarController: _calendarController,
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                TableCalendar(
+                  calendarController: _calendarController,
+                  initialCalendarFormat: CalendarFormat.month,
+                  calendarStyle: CalendarStyle(
+                    canEventMarkersOverflow: true,
+                    todayColor: Colors.black,
+                    selectedColor: Colors.grey,
+                    todayStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  headerStyle: HeaderStyle(
+                    centerHeaderTitle: true,
+                    formatButtonDecoration: BoxDecoration(
+                      color: Colors.blueGrey,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    formatButtonTextStyle: TextStyle(color: Colors.white),
+                    formatButtonShowsNext: false,
+                  ),
+                  startingDayOfWeek: StartingDayOfWeek.sunday,
+                  //onDaySelected: _onDaySelected,
+                  builders: CalendarBuilders(
+                    selectedDayBuilder: (context, date, events) => Container(
+                        margin: const EdgeInsets.all(4.0),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          date.day.toString(),
+                          style: TextStyle(color: Colors.white),
+                        )),
+                    todayDayBuilder: (context, date, events) => Container(
+                        margin: const EdgeInsets.all(4.0),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          date.day.toString(),
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ),
+                ),
+                ListTile(),
+              ],
+            ),
           );
         }),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blueGrey,
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddPricePage(),
+                fullscreenDialog: true,
+              ),
+            );
+          },
+        ),
       ),
     );
   }
