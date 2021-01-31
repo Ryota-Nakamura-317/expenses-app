@@ -18,6 +18,7 @@ class AddModel extends ChangeNotifier {
       'payments': payments,
       'date': date,
       'memo': memo,
+      'createdAt': Timestamp.now(),
     });
   }
 }

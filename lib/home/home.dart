@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomePage extends StatelessWidget {
-  final _calendarController = CalendarController();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomePageModel>(
@@ -47,7 +46,7 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TableCalendar(
-                  calendarController: _calendarController,
+                  calendarController: model.calendarController,
                   initialCalendarFormat: CalendarFormat.month,
                   calendarStyle: CalendarStyle(
                     canEventMarkersOverflow: true,
@@ -69,10 +68,10 @@ class HomePage extends StatelessWidget {
                     formatButtonShowsNext: false,
                   ),
                   startingDayOfWeek: StartingDayOfWeek.sunday,
-                  //onDaySelected: _onDaySelected,
+                  onDaySelected: model.onDaySelected,
                   builders: CalendarBuilders(
                     selectedDayBuilder: (context, date, events) => Container(
-                        margin: const EdgeInsets.all(4.0),
+                        margin: const EdgeInsets.all(5.0),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: Colors.grey,
