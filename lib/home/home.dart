@@ -1,3 +1,56 @@
+import 'package:expenses_app/home/home_model.dart';
+import 'package:expenses_app/main/main.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+class HomePage extends StatelessWidget {
+  final _calendarController = CalendarController();
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<HomePageModel>(
+      create: (_) => HomePageModel(),
+      child: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          title: Text(
+            '支出管理',
+            style: TextStyle(
+              fontStyle: FontStyle.italic,
+              color: Colors.black,
+            ),
+          ),
+          actions: [
+            IconButton(
+              color: Colors.black,
+              onPressed: () {
+                //todo pushAndRemoveUntilに変更
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyHome(),
+                  ),
+                );
+              },
+              icon: Icon(Icons.logout),
+            ),
+          ],
+        ),
+        body: Consumer<HomePageModel>(builder: (context, model, child) {
+          return TableCalendar(
+            calendarController: _calendarController,
+          );
+        }),
+      ),
+    );
+  }
+}
+
+/*
 import 'dart:convert';
 
 import 'package:expenses_app/home/add_page.dart';
@@ -165,3 +218,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+*/
