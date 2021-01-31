@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:expenses_app/home/add_page.dart';
 import 'package:expenses_app/main/main.dart';
+import 'package:expenses_app/user.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -16,7 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
-  List<dynamic> _selectedEvents;
+  List<UserData> list;
   TextEditingController _eventController;
   SharedPreferences prefs;
 
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     _controller = CalendarController();
     _eventController = TextEditingController();
     _events = {};
-    _selectedEvents = [];
+    list = [];
     initPrefs();
   }
 
@@ -57,9 +58,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onDaySelected(DateTime day, List events, List holidays) {
-    print('CALLBACK: _onDaySelected');
     setState(() {
-      _selectedEvents = events;
+      list = events;
     });
   }
 
@@ -145,9 +145,7 @@ class _HomePageState extends State<HomePage> {
               ),
               calendarController: _controller,
             ),
-            ..._selectedEvents.map((event) => ListTile(
-                  title: Text(event),
-                )),
+            ...list.map((event) => ListTile()),
           ],
         ),
       ),
@@ -165,37 +163,5 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
-  }
-
-  _showAddDialog() async {
-    await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              content: TextField(
-                controller: _eventController,
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text("Save"),
-                  onPressed: () {
-                    if (_eventController.text.isEmpty) return;
-                    if (_events[_controller.selectedDay] != null) {
-                      _events[_controller.selectedDay]
-                          .add(_eventController.text);
-                    } else {
-                      _events[_controller.selectedDay] = [
-                        _eventController.text
-                      ];
-                    }
-                    prefs.setString("events", json.encode(encodeMap(_events)));
-                    _eventController.clear();
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            ));
-    setState(() {
-      _selectedEvents = _events[_controller.selectedDay];
-    });
   }
 }

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore_platform_interface/src/timestamp.dart';
 import 'package:expenses_app/home/add_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -40,6 +42,9 @@ class AddPricePage extends StatelessWidget {
                         border: InputBorder.none,
                         prefixIcon: Icon(Icons.attach_money),
                       ),
+                      onChanged: (price) {
+                        model.price = int.parse(price);
+                      },
                     ),
                     Divider(),
                     FormBuilderDropdown(
@@ -58,6 +63,9 @@ class AddPricePage extends StatelessWidget {
                                 child: Text('$payment'),
                               ))
                           .toList(),
+                      onChanged: (payments) {
+                        model.payments = payments;
+                      },
                     ),
                     Divider(),
                     FormBuilderDateTimePicker(
@@ -70,6 +78,10 @@ class AddPricePage extends StatelessWidget {
                         border: InputBorder.none,
                         prefixIcon: Icon(Icons.calendar_today),
                       ),
+                      //DateTime型からTimeStamp型にしてdateに代入
+                      onChanged: (DateTime date) {
+                        model.date = Timestamp.fromDate(date);
+                      },
                     ),
                     Divider(),
                     FormBuilderTextField(
@@ -82,6 +94,9 @@ class AddPricePage extends StatelessWidget {
                         hintText: 'メモ',
                         prefixIcon: Icon(Icons.text_fields),
                       ),
+                      onChanged: (memo) {
+                        model.memo = memo;
+                      },
                     ),
                     Divider(),
                     SizedBox(height: 50.0),
@@ -92,7 +107,8 @@ class AddPricePage extends StatelessWidget {
                           color: Colors.black,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        await model.add();
                         //todo 処理
                         Navigator.pop(context);
                       },

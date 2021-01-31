@@ -1,18 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserData {
-  final String email;
-  final String password;
-  final String uid;
-  final String payment;
-  final int price;
-  Timestamp createdAt;
+  String email;
+  String password;
+  String uid;
+  String payments;
+  int price;
+  DateTime createdAt;
 
-  UserData({
-    this.email,
-    this.password,
-    this.uid,
-    this.payment,
-    this.price,
-  });
+  UserData(DocumentSnapshot doc) {
+    this.email = doc.data()['email'];
+    this.password = doc.data()['password'];
+    this.uid = doc.data()['uid'];
+    this.payments = doc.data()['payments'];
+    this.price = doc.data()['price'];
+    this.createdAt = doc.data()['createdAt'];
+  }
 }

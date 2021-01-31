@@ -1,4 +1,4 @@
-import 'package:expenses_app/home/home.dart';
+import 'package:expenses_app/signin/signin_page.dart';
 import 'package:expenses_app/signup/signup_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +81,7 @@ class MyHome extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     //todo 後でサインインページに変更！
-                    builder: (context) => HomePage(),
+                    builder: (context) => SignInPage(),
                   ),
                 );
               },

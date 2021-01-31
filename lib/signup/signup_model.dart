@@ -15,7 +15,7 @@ class SignUpModel extends ChangeNotifier {
         .user;
     final uid = user.uid;
 
-    FirebaseFirestore.instance.collection('users').add(
+    FirebaseFirestore.instance.collection('users').doc('details').set(
       {
         'uid': uid,
         'email': email,
