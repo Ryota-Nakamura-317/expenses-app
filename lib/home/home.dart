@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
                     selectedColor: Colors.grey,
                     todayStyle: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
+                      fontSize: 15.0,
                       color: Colors.white,
                     ),
                   ),
@@ -70,31 +70,33 @@ class HomePage extends StatelessWidget {
                   startingDayOfWeek: StartingDayOfWeek.sunday,
                   onDaySelected: model.onDaySelected,
                   builders: CalendarBuilders(
-                    selectedDayBuilder: (context, date, events) => Container(
-                        margin: const EdgeInsets.all(5.0),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          date.day.toString(),
-                          style: TextStyle(color: Colors.white),
-                        )),
-                    todayDayBuilder: (context, date, events) => Container(
-                        margin: const EdgeInsets.all(4.0),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          date.day.toString(),
-                          style: TextStyle(color: Colors.white),
-                        )),
+                    markersBuilder: (context, date, events, holidays) {
+                      final children = <Widget>[];
+                      if (events.isNotEmpty) {
+                        children.add(
+                          Positioned(
+                            right: 1,
+                            bottom: 1,
+                            child: _buildEventsMarker(date, events),
+                          ),
+                        );
+                      }
+                      return children;
+                    },
                   ),
                 ),
-                ListTile(),
+                /*Consumer<HomePageModel>(builder: (context, model, child) {
+                  final expensesList = model.expensesList;
+                  return ListView(
+                      */ /*children: expensesList
+                        .map(
+                          (expenses) => ListTile(
+                            title: Text(expenses.price),
+                          ),
+                        )
+                        .toList(),*/ /*
+                      );
+                }),*/
               ],
             ),
           );
@@ -114,6 +116,33 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildEventsMarker(DateTime date, List events) {
+    return Consumer<HomePageModel>(builder: (context, model, child) {
+      return AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: model.calendarController.isSelected(date)
+              ? Colors.brown[500]
+              : model.calendarController.isToday(date)
+                  ? Colors.brown[300]
+                  : Colors.blue[400],
+        ),
+        width: 16.0,
+        height: 16.0,
+        child: Center(
+          child: Text(
+            '${events.length}',
+            style: TextStyle().copyWith(
+              color: Colors.white,
+              fontSize: 12.0,
+            ),
+          ),
+        ),
+      );
+    });
   }
 }
 

@@ -9,7 +9,7 @@ class Expenses {
     this.date = doc.data()['date'];
     this.createdAt = doc.data()['createdAt'];
   }
-  int price = 0;
+  String price = '';
   String payments = '';
   String memo = '';
   String documentId;
