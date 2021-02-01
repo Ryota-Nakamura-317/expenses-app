@@ -8,11 +8,7 @@ import 'package:provider/provider.dart';
 
 class AddPricePage extends StatelessWidget {
   final _formKey = GlobalKey<FormBuilderState>();
-  final List<String> _payment = [
-    '現金',
-    'クレジットカード',
-    'QRコード決済',
-  ];
+  final List<String> _payment = ['現金', 'クレジットカード', 'QRコード決済'];
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +38,8 @@ class AddPricePage extends StatelessWidget {
                         border: InputBorder.none,
                         prefixIcon: Icon(Icons.attach_money),
                       ),
-                      onChanged: (price) {
-                        model.price = int.parse(price);
+                      onChanged: (String price) {
+                        model.price = price;
                       },
                     ),
                     Divider(),
@@ -63,7 +59,7 @@ class AddPricePage extends StatelessWidget {
                                 child: Text('$payment'),
                               ))
                           .toList(),
-                      onChanged: (payments) {
+                      onChanged: (String payments) {
                         model.payments = payments;
                       },
                     ),
@@ -94,7 +90,7 @@ class AddPricePage extends StatelessWidget {
                         hintText: 'メモ',
                         prefixIcon: Icon(Icons.text_fields),
                       ),
-                      onChanged: (memo) {
+                      onChanged: (String memo) {
                         model.memo = memo;
                       },
                     ),

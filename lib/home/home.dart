@@ -1,6 +1,6 @@
 import 'package:expenses_app/home/add_page.dart';
 import 'package:expenses_app/home/home_model.dart';
-import 'package:expenses_app/main/main.dart';
+import 'package:expenses_app/screens/signin_signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyHome(),
+                    builder: (context) => SignInSignUpPage(),
                   ),
                 );
               },

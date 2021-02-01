@@ -17,3 +17,9 @@ class UserData {
     this.createdAt = doc.data()['createdAt'];
   }
 }
+
+class AppUser {
+  final String uid;
+
+  AppUser({this.uid});
+}

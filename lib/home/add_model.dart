@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AddModel extends ChangeNotifier {
-  int price = 0;
+  String price = '';
   String payments = '';
-  Timestamp date;
   String memo = '';
+  Timestamp date;
 
   Future add() async {
     final collection = FirebaseFirestore.instance

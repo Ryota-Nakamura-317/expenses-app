@@ -16,18 +16,3 @@ class Expenses {
   Timestamp date;
   Timestamp createdAt;
 }
-
-/*
-class ExpensesUser {
-  final String uid;
-  ExpensesUser({this.uid});
-}
-
-class ExpensesData {
-  final String payment;
-  final String price;
-  Timestamp createdAt;
-
-  ExpensesData({this.payment, this.price, this.createdAt});
-}
-*/
