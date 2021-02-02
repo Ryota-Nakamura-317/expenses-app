@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomePageModel>(
-      create: (_) => HomePageModel(),
+      create: (_) => HomePageModel()..getExpensesListRealTime(),
       child: Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -85,18 +85,18 @@ class HomePage extends StatelessWidget {
                     },
                   ),
                 ),
-                /*Consumer<HomePageModel>(builder: (context, model, child) {
+                Consumer<HomePageModel>(builder: (context, model, child) {
                   final expensesList = model.expensesList;
-                  return ListView(
-                      */ /*children: expensesList
-                        .map(
-                          (expenses) => ListTile(
+                  final listTiles = expensesList
+                      .map((expenses) => ListTile(
                             title: Text(expenses.price),
-                          ),
-                        )
-                        .toList(),*/ /*
-                      );
-                }),*/
+                          ))
+                      .toList();
+                  return ListView(
+                    shrinkWrap: true,
+                    children: listTiles,
+                  );
+                }),
               ],
             ),
           );

@@ -6,12 +6,15 @@ import 'package:table_calendar/table_calendar.dart';
 class HomePageModel extends ChangeNotifier {
   CalendarController calendarController = CalendarController();
   List<Expenses> expensesList = [];
+  Timestamp _selectedDay;
+  Timestamp _lastDayTimestamp;
 
   void onDaySelected(DateTime date, event, _) {
     Timestamp selectedDay = Timestamp.fromDate(date.add(Duration(hours: -21)));
     DateTime lastDay = date.add(Duration(hours: 12, microseconds: -1));
     Timestamp lastDayTimestamp = Timestamp.fromDate(lastDay);
-    print(lastDayTimestamp);
+    _selectedDay = selectedDay;
+    _lastDayTimestamp = lastDayTimestamp;
   }
 
   void getExpensesListRealTime() {
@@ -19,6 +22,11 @@ class HomePageModel extends ChangeNotifier {
         .collection('users')
         .doc('details')
         .collection('expenses')
+        .where(
+          'date',
+          isEqualTo: _selectedDay,
+        )
+        .where('date', isEqualTo: _lastDayTimestamp)
         .snapshots();
     snapshots.listen((snapshot) {
       final docs = snapshot.docs;
