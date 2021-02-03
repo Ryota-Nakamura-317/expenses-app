@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomePageModel>(
-      create: (_) => HomePageModel()..getExpensesListRealTime(),
+      create: (_) => HomePageModel(),
       child: Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(

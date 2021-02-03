@@ -67,7 +67,7 @@ class AddPricePage extends StatelessWidget {
                     FormBuilderDateTimePicker(
                       name: 'date',
                       initialValue: DateTime.now(),
-                      fieldHintText: '日付',
+                      //fieldHintText: '日付',
                       inputType: InputType.date,
                       format: DateFormat('yMMMMEEEEd'),
                       decoration: InputDecoration(

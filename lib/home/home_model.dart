@@ -6,33 +6,43 @@ import 'package:table_calendar/table_calendar.dart';
 class HomePageModel extends ChangeNotifier {
   CalendarController calendarController = CalendarController();
   List<Expenses> expensesList = [];
-  Timestamp _selectedDay;
-  Timestamp _lastDayTimestamp;
 
   void onDaySelected(DateTime date, event, _) {
-    Timestamp selectedDay = Timestamp.fromDate(date.add(Duration(hours: -21)));
+    Timestamp selectedDay = Timestamp.fromDate(date.add(Duration(hours: -12)));
     DateTime lastDay = date.add(Duration(hours: 12, microseconds: -1));
     Timestamp lastDayTimestamp = Timestamp.fromDate(lastDay);
-    _selectedDay = selectedDay;
-    _lastDayTimestamp = lastDayTimestamp;
-  }
+    print(date.add(Duration(hours: -12)));
+    print(date.add(Duration(hours: 12, microseconds: -1)));
 
-  void getExpensesListRealTime() {
-    final snapshots = FirebaseFirestore.instance
+    final querySnapshot = FirebaseFirestore.instance
         .collection('users')
         .doc('details')
         .collection('expenses')
-        .where(
-          'date',
-          isEqualTo: _selectedDay,
-        )
-        .where('date', isEqualTo: _lastDayTimestamp)
+        .where('date',
+            isGreaterThanOrEqualTo: selectedDay,
+            isLessThanOrEqualTo: lastDayTimestamp)
         .snapshots();
-    snapshots.listen((snapshot) {
+    querySnapshot.listen((snapshot) {
       final docs = snapshot.docs;
       final expensesList = docs.map((doc) => Expenses(doc)).toList();
       this.expensesList = expensesList;
       notifyListeners();
     });
   }
+
+  /*void getExpensesListRealTime() {
+    final querySnapshot = FirebaseFirestore.instance
+        .collection('users')
+        .doc('details')
+        .collection('expenses')
+        .where('date',
+            isGreaterThan: _selectedDay, isLessThan: _lastDayTimestamp)
+        .snapshots();
+    querySnapshot.listen((snapshot) {
+      final docs = snapshot.docs;
+      final expensesList = docs.map((doc) => Expenses(doc)).toList();
+      this.expensesList = expensesList;
+      notifyListeners();
+    });
+  }*/
 }
