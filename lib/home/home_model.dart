@@ -8,19 +8,19 @@ class HomePageModel extends ChangeNotifier {
   List<Expenses> expensesList = [];
 
   void onDaySelected(DateTime date, event, _) {
-    Timestamp selectedDay = Timestamp.fromDate(date.add(Duration(hours: -12)));
-    DateTime lastDay = date.add(Duration(hours: 12, microseconds: -1));
+    Timestamp selectedDay =
+        Timestamp.fromDate(date.add(Duration(days: -1, hours: -12)));
+    DateTime lastDay =
+        date.add(Duration(days: -1, hours: 12, microseconds: -1));
     Timestamp lastDayTimestamp = Timestamp.fromDate(lastDay);
-    print(date.add(Duration(hours: -12)));
-    print(date.add(Duration(hours: 12, microseconds: -1)));
+    /*print(date.add(Duration(days: -1, hours: -12)));
+    print(date.add(Duration(days: -1, hours: 12, microseconds: -1)));*/
 
     final querySnapshot = FirebaseFirestore.instance
         .collection('users')
         .doc('details')
         .collection('expenses')
-        .where('date',
-            isGreaterThanOrEqualTo: selectedDay,
-            isLessThanOrEqualTo: lastDayTimestamp)
+        .where('date', isGreaterThan: selectedDay, isLessThan: lastDayTimestamp)
         .snapshots();
     querySnapshot.listen((snapshot) {
       final docs = snapshot.docs;
@@ -29,20 +29,4 @@ class HomePageModel extends ChangeNotifier {
       notifyListeners();
     });
   }
-
-  /*void getExpensesListRealTime() {
-    final querySnapshot = FirebaseFirestore.instance
-        .collection('users')
-        .doc('details')
-        .collection('expenses')
-        .where('date',
-            isGreaterThan: _selectedDay, isLessThan: _lastDayTimestamp)
-        .snapshots();
-    querySnapshot.listen((snapshot) {
-      final docs = snapshot.docs;
-      final expensesList = docs.map((doc) => Expenses(doc)).toList();
-      this.expensesList = expensesList;
-      notifyListeners();
-    });
-  }*/
 }

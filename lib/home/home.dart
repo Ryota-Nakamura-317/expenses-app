@@ -85,18 +85,25 @@ class HomePage extends StatelessWidget {
                     },
                   ),
                 ),
-                Consumer<HomePageModel>(builder: (context, model, child) {
-                  final expensesList = model.expensesList;
-                  final listTiles = expensesList
-                      .map((expenses) => ListTile(
-                            title: Text(expenses.price),
-                          ))
-                      .toList();
-                  return ListView(
-                    shrinkWrap: true,
-                    children: listTiles,
-                  );
-                }),
+                Consumer<HomePageModel>(
+                  builder: (context, model, child) {
+                    final expensesList = model.expensesList;
+                    final listTiles = expensesList
+                        .map((expenses) => Card(
+                              margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+                              child: ListTile(
+                                leading: Icon(Icons.arrow_right),
+                                title: Text('${expenses.price}円'),
+                                trailing: Icon(Icons.more_vert),
+                              ),
+                            ))
+                        .toList();
+                    return ListView(
+                      shrinkWrap: true,
+                      children: listTiles,
+                    );
+                  },
+                ),
               ],
             ),
           );

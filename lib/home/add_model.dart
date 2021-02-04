@@ -6,6 +6,7 @@ class AddModel extends ChangeNotifier {
   String payments = '';
   String memo = '';
   Timestamp date;
+  List<String> payment = ['現金', 'クレジットカード', 'QRコード', '交通系IC', '電子マネー'];
 
   Future add() async {
     final collection = FirebaseFirestore.instance

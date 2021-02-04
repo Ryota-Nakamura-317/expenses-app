@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class AddPricePage extends StatelessWidget {
   final _formKey = GlobalKey<FormBuilderState>();
-  final List<String> _payment = ['現金', 'クレジットカード', 'QRコード決済'];
+  //final List<String> _payment = ['現金', 'クレジットカード', 'QRコード決済'];
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class AddPricePage extends StatelessWidget {
                       hint: Text('支払い方法'),
                       validator: FormBuilderValidators.compose(
                           [FormBuilderValidators.required(context)]),
-                      items: _payment
+                      items: model.payment
                           .map((payment) => DropdownMenuItem(
                                 value: payment,
                                 child: Text('$payment'),
@@ -66,11 +66,12 @@ class AddPricePage extends StatelessWidget {
                     Divider(),
                     FormBuilderDateTimePicker(
                       name: 'date',
-                      initialValue: DateTime.now(),
-                      //fieldHintText: '日付',
+                      //initialValue: DateTime.now(),
+                      initialDate: DateTime.now(),
                       inputType: InputType.date,
                       format: DateFormat('yMMMMEEEEd'),
                       decoration: InputDecoration(
+                        hintText: 'タップして日付を選択',
                         border: InputBorder.none,
                         prefixIcon: Icon(Icons.calendar_today),
                       ),
