@@ -6,6 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 class HomePageModel extends ChangeNotifier {
   CalendarController calendarController = CalendarController();
   List<Expenses> expensesList = [];
+  final priceEditingController = TextEditingController();
 
   void onDaySelected(DateTime date, event, _) {
     Timestamp selectedDay =
@@ -26,6 +27,7 @@ class HomePageModel extends ChangeNotifier {
       final docs = snapshot.docs;
       final expensesList = docs.map((doc) => Expenses(doc)).toList();
       this.expensesList = expensesList;
+
       notifyListeners();
     });
   }

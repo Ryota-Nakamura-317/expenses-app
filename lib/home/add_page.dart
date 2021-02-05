@@ -1,21 +1,39 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_platform_interface/src/timestamp.dart';
 import 'package:expenses_app/home/add_model.dart';
+import 'package:expenses_app/model/expenses_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddPricePage extends StatelessWidget {
-  final _formKey = GlobalKey<FormBuilderState>();
-  //final List<String> _payment = ['現金', 'クレジットカード', 'QRコード決済'];
+  final Expenses expenses;
+  AddPricePage({this.expenses});
 
   @override
   Widget build(BuildContext context) {
+    //アップデートの判断
+    final bool isUpdate = expenses != null;
+    final priceEditingController = TextEditingController();
+    final memoEditingController = TextEditingController();
+
+    if (isUpdate) {
+      priceEditingController.text = expenses.price;
+      memoEditingController.text = expenses.memo;
+    }
+
     return ChangeNotifierProvider<AddModel>(
       create: (_) => AddModel(),
       child: Scaffold(
         appBar: AppBar(
+          title: Text(
+            isUpdate ? '編集' : '支出登録',
+            style: TextStyle(
+              color: Colors.black,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
@@ -30,6 +48,7 @@ class AddPricePage extends StatelessWidget {
                 child: Column(
                   children: [
                     FormBuilderTextField(
+                      controller: priceEditingController,
                       cursorColor: Colors.blueGrey,
                       name: 'title',
                       keyboardType: TextInputType.number,
@@ -44,7 +63,7 @@ class AddPricePage extends StatelessWidget {
                     ),
                     Divider(),
                     FormBuilderDropdown(
-                      name: 'payment',
+                      name: 'payments',
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.payment),
                         border: InputBorder.none,
@@ -66,7 +85,6 @@ class AddPricePage extends StatelessWidget {
                     Divider(),
                     FormBuilderDateTimePicker(
                       name: 'date',
-                      //initialValue: DateTime.now(),
                       initialDate: DateTime.now(),
                       inputType: InputType.date,
                       format: DateFormat('yMMMMEEEEd'),
@@ -82,6 +100,7 @@ class AddPricePage extends StatelessWidget {
                     ),
                     Divider(),
                     FormBuilderTextField(
+                      controller: memoEditingController,
                       cursorColor: Colors.blueGrey,
                       name: 'メモ',
                       maxLines: 20,

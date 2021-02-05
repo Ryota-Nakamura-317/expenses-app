@@ -49,7 +49,8 @@ class HomePage extends StatelessWidget {
                   calendarController: model.calendarController,
                   initialCalendarFormat: CalendarFormat.month,
                   calendarStyle: CalendarStyle(
-                    canEventMarkersOverflow: true,
+                    //canEventMarkersOverflow: true,
+                    //markersColor: Colors.blueGrey,
                     todayColor: Colors.black,
                     selectedColor: Colors.grey,
                     todayStyle: TextStyle(
@@ -69,7 +70,7 @@ class HomePage extends StatelessWidget {
                   ),
                   startingDayOfWeek: StartingDayOfWeek.sunday,
                   onDaySelected: model.onDaySelected,
-                  builders: CalendarBuilders(
+                  /*builders: CalendarBuilders(
                     markersBuilder: (context, date, events, holidays) {
                       final children = <Widget>[];
                       if (events.isNotEmpty) {
@@ -83,7 +84,7 @@ class HomePage extends StatelessWidget {
                       }
                       return children;
                     },
-                  ),
+                  ),*/
                 ),
                 Consumer<HomePageModel>(
                   builder: (context, model, child) {
@@ -94,7 +95,20 @@ class HomePage extends StatelessWidget {
                               child: ListTile(
                                 leading: Icon(Icons.arrow_right),
                                 title: Text('${expenses.price}円'),
-                                trailing: Icon(Icons.more_vert),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.more_vert),
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AddPricePage(
+                                          expenses: expenses,
+                                        ),
+                                        fullscreenDialog: true,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ))
                         .toList();
@@ -111,8 +125,8 @@ class HomePage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blueGrey,
           child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.push(
+          onPressed: () async {
+            await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => AddPricePage(),
@@ -125,7 +139,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildEventsMarker(DateTime date, List events) {
+  /*Widget _buildEventsMarker(DateTime date, List events) {
     return Consumer<HomePageModel>(builder: (context, model, child) {
       return AnimatedContainer(
         duration: const Duration(milliseconds: 300),
@@ -150,7 +164,7 @@ class HomePage extends StatelessWidget {
         ),
       );
     });
-  }
+  }*/
 }
 
 /*
