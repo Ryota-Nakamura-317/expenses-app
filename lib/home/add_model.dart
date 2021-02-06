@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expenses_app/model/expenses_data.dart';
 import 'package:flutter/material.dart';
 
 class AddModel extends ChangeNotifier {
@@ -15,6 +16,21 @@ class AddModel extends ChangeNotifier {
         .collection('expenses')
         .doc();
     await collection.set({
+      'price': price,
+      'payments': payments,
+      'date': date,
+      'memo': memo,
+      'createdAt': Timestamp.now(),
+    });
+  }
+
+  Future update(Expenses expenses) async {
+    final collection = FirebaseFirestore.instance
+        .collection('users')
+        .doc('details')
+        .collection('expenses')
+        .doc(expenses.documentId);
+    await collection.update({
       'price': price,
       'payments': payments,
       'date': date,

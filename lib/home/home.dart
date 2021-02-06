@@ -1,4 +1,5 @@
 import 'package:expenses_app/home/add_page.dart';
+import 'package:expenses_app/home/edit_page.dart';
 import 'package:expenses_app/home/home_model.dart';
 import 'package:expenses_app/screens/signin_signup_page.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,7 @@ class HomePage extends StatelessWidget {
                                     await Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => AddPricePage(
+                                        builder: (context) => EditPage(
                                           expenses: expenses,
                                         ),
                                         fullscreenDialog: true,

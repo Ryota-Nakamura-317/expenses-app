@@ -3,22 +3,23 @@ import 'package:expenses_app/home/add_model.dart';
 import 'package:expenses_app/model/expenses_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class AddPricePage extends StatelessWidget {
+class EditPage extends StatelessWidget {
   final Expenses expenses;
-  AddPricePage({this.expenses});
+  EditPage({this.expenses});
+
   @override
   Widget build(BuildContext context) {
-    //アップデートの判断
-
+    initializeDateFormatting("ja_JP");
     return ChangeNotifierProvider<AddModel>(
       create: (_) => AddModel(),
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            '支出登録',
+            '支出編集',
             style: TextStyle(
               color: Colors.black,
               fontStyle: FontStyle.italic,
@@ -38,6 +39,7 @@ class AddPricePage extends StatelessWidget {
                 child: Column(
                   children: [
                     FormBuilderTextField(
+                      initialValue: expenses.price,
                       cursorColor: Colors.blueGrey,
                       name: 'title',
                       keyboardType: TextInputType.number,
@@ -52,6 +54,7 @@ class AddPricePage extends StatelessWidget {
                     ),
                     Divider(),
                     FormBuilderDropdown(
+                      initialValue: expenses.payments,
                       name: 'payments',
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.payment),
@@ -74,9 +77,11 @@ class AddPricePage extends StatelessWidget {
                     Divider(),
                     FormBuilderDateTimePicker(
                       name: 'date',
-                      initialDate: DateTime.now(),
+                      currentDate: expenses.date.toDate(),
+                      initialValue: expenses.date.toDate(),
+                      initialDate: expenses.date.toDate(),
                       inputType: InputType.date,
-                      format: DateFormat('yMMMMEEEEd'),
+                      format: DateFormat('yyyy/MM/dd(E) ', "ja_JP"),
                       decoration: InputDecoration(
                         hintText: 'タップして日付を選択',
                         border: InputBorder.none,
@@ -93,6 +98,7 @@ class AddPricePage extends StatelessWidget {
                     ),
                     Divider(),
                     FormBuilderTextField(
+                      initialValue: expenses.memo,
                       cursorColor: Colors.blueGrey,
                       name: 'メモ',
                       maxLines: 20,
@@ -110,13 +116,13 @@ class AddPricePage extends StatelessWidget {
                     SizedBox(height: 50.0),
                     RaisedButton(
                       child: Text(
-                        '追加',
+                        '変更',
                         style: TextStyle(
                           color: Colors.black,
                         ),
                       ),
                       onPressed: () async {
-                        await model.add();
+                        await model.update(expenses);
                         //todo 処理
                         Navigator.pop(context);
                       },
