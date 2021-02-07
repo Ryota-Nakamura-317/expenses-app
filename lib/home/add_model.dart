@@ -8,8 +8,8 @@ class AddModel extends ChangeNotifier {
   String memo = '';
   Timestamp date;
   List<String> payment = ['現金', 'クレジットカード', 'QRコード', '交通系IC', '電子マネー'];
-  /*TextEditingController priceEditingController = TextEditingController();
-  TextEditingController memoEditingController = TextEditingController();*/
+
+  //TextEditingController memoEditingController = TextEditingController();
 
   Future add() async {
     final collection = FirebaseFirestore.instance
@@ -39,5 +39,14 @@ class AddModel extends ChangeNotifier {
       'memo': memo,
       'createdAt': Timestamp.now(),
     });
+  }
+
+  Future delete(Expenses expenses) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc('details')
+        .collection('expenses')
+        .doc(expenses.documentId)
+        .delete();
   }
 }

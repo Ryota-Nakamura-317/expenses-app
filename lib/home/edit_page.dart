@@ -50,7 +50,7 @@ class EditPage extends StatelessWidget {
                         border: InputBorder.none,
                         prefixIcon: Icon(Icons.attach_money),
                       ),
-                      onChanged: (String price) {
+                      onSaved: (String price) {
                         model.price = price;
                       },
                     ),
@@ -72,7 +72,7 @@ class EditPage extends StatelessWidget {
                                 child: Text('$payment'),
                               ))
                           .toList(),
-                      onChanged: (String payments) {
+                      onSaved: (String payments) {
                         model.payments = payments;
                       },
                     ),
@@ -90,7 +90,7 @@ class EditPage extends StatelessWidget {
                         prefixIcon: Icon(Icons.calendar_today),
                       ),
                       //DateTime型からTimeStamp型にしてdateに代入
-                      onChanged: (DateTime date) {
+                      onSaved: (DateTime date) {
                         if (date != null) {
                           model.date = Timestamp.fromDate(date);
                         } else {
@@ -110,7 +110,7 @@ class EditPage extends StatelessWidget {
                         hintText: 'メモ',
                         prefixIcon: Icon(Icons.text_fields),
                       ),
-                      onChanged: (String memo) {
+                      onSaved: (String memo) {
                         model.memo = memo;
                       },
                     ),
@@ -124,8 +124,23 @@ class EditPage extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        //await model.update(expenses);
-                        print(model.price);
+                        _formKey.currentState.save();
+                        await model.update(expenses);
+                        Navigator.pop(context);
+                      },
+                    ),
+                    SizedBox(height: 20.0),
+                    RaisedButton(
+                      color: Colors.red[500],
+                      child: Text(
+                        '削除',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () async {
+                        _formKey.currentState.save();
+                        await model.delete(expenses);
                         Navigator.pop(context);
                       },
                     ),
