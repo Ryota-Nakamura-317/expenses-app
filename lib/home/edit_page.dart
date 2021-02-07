@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expenses_app/home/add_model.dart';
 import 'package:expenses_app/model/expenses_data.dart';
+import 'package:expenses_app/screens/showdialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -8,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class EditPage extends StatelessWidget {
-  final Expenses expenses;
+  final ExpensesUser expenses;
   EditPage({this.expenses});
   final _formKey = GlobalKey<FormBuilderState>();
 
@@ -77,6 +78,28 @@ class EditPage extends StatelessWidget {
                       },
                     ),
                     Divider(),
+                    FormBuilderDropdown(
+                      initialValue: expenses.category,
+                      name: 'category',
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.category),
+                        border: InputBorder.none,
+                      ),
+                      allowClear: true,
+                      hint: Text('カテゴリ'),
+                      validator: FormBuilderValidators.compose(
+                          [FormBuilderValidators.required(context)]),
+                      items: model.categoryList
+                          .map((categoryList) => DropdownMenuItem(
+                                value: categoryList,
+                                child: Text('$categoryList'),
+                              ))
+                          .toList(),
+                      onSaved: (String category) {
+                        model.category = category;
+                      },
+                    ),
+                    Divider(),
                     FormBuilderDateTimePicker(
                       name: 'date',
                       currentDate: expenses.date.toDate(),
@@ -131,7 +154,7 @@ class EditPage extends StatelessWidget {
                     ),
                     SizedBox(height: 20.0),
                     RaisedButton(
-                      color: Colors.red[500],
+                      color: Colors.orangeAccent,
                       child: Text(
                         '削除',
                         style: TextStyle(
@@ -140,8 +163,8 @@ class EditPage extends StatelessWidget {
                       ),
                       onPressed: () async {
                         _formKey.currentState.save();
-                        await model.delete(expenses);
-                        Navigator.pop(context);
+                        await DeleteDialog(context, '削除しますか？');
+                        model.delete(expenses);
                       },
                     ),
                   ],

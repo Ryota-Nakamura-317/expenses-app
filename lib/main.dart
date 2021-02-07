@@ -1,5 +1,5 @@
+import 'package:expenses_app/model/expenses_data.dart';
 import 'package:expenses_app/model/login_check.dart';
-import 'package:expenses_app/model/user.dart';
 import 'package:expenses_app/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

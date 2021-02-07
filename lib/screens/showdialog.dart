@@ -26,14 +26,30 @@ Future SuccessShowDialog(BuildContext context, String title) async {
 //サインイン、サインアップ失敗時のダイアログ
 Future ErrorShowDialog(BuildContext context, String title) {
   AwesomeDialog(
-      context: context,
-      dialogType: DialogType.ERROR,
-      animType: AnimType.RIGHSLIDE,
-      headerAnimationLoop: false,
-      title: 'Error',
-      desc: title,
-      btnOkOnPress: () {},
-      btnOkIcon: Icons.cancel,
-      btnOkColor: Colors.red)
-    ..show();
+    context: context,
+    dialogType: DialogType.ERROR,
+    animType: AnimType.RIGHSLIDE,
+    headerAnimationLoop: false,
+    title: 'Error',
+    desc: title,
+    btnOkOnPress: () {},
+    btnOkIcon: Icons.cancel,
+    btnOkColor: Colors.red,
+  )..show();
+}
+
+//削除時ダイアログ
+Future DeleteDialog(BuildContext context, String title) {
+  AwesomeDialog(
+    context: context,
+    dialogType: DialogType.WARNING,
+    animType: AnimType.TOPSLIDE,
+    headerAnimationLoop: true,
+    title: '確認',
+    desc: title,
+    btnOkColor: Colors.orangeAccent,
+    btnOkOnPress: () {
+      Navigator.pop(context);
+    },
+  )..show();
 }

@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+/*import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserData {
   String email;
@@ -16,10 +16,4 @@ class UserData {
     this.price = doc.data()['price'];
     this.createdAt = doc.data()['createdAt'];
   }
-}
-
-class AppUser {
-  final String uid;
-
-  AppUser({this.uid});
-}
+}*/

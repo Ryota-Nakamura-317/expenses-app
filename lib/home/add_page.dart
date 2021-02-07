@@ -7,8 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddPricePage extends StatelessWidget {
-  final Expenses expenses;
+  final ExpensesUser expenses;
   AddPricePage({this.expenses});
+  final _formKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
     //アップデートの判断
@@ -35,6 +36,7 @@ class AddPricePage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             children: [
               FormBuilder(
+                key: _formKey,
                 child: Column(
                   children: [
                     FormBuilderTextField(
@@ -69,6 +71,27 @@ class AddPricePage extends StatelessWidget {
                           .toList(),
                       onChanged: (String payments) {
                         model.payments = payments;
+                      },
+                    ),
+                    Divider(),
+                    FormBuilderDropdown(
+                      name: 'category',
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.category),
+                        border: InputBorder.none,
+                      ),
+                      allowClear: true,
+                      hint: Text('カテゴリ'),
+                      validator: FormBuilderValidators.compose(
+                          [FormBuilderValidators.required(context)]),
+                      items: model.categoryList
+                          .map((categoryList) => DropdownMenuItem(
+                                value: categoryList,
+                                child: Text('$categoryList'),
+                              ))
+                          .toList(),
+                      onChanged: (String category) {
+                        model.category = category;
                       },
                     ),
                     Divider(),
@@ -116,7 +139,8 @@ class AddPricePage extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        await model.add();
+                        _formKey.currentState.save();
+                        await model.add(expenses);
                         //todo 処理
                         Navigator.pop(context);
                       },
