@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 class EditPage extends StatelessWidget {
   final Expenses expenses;
   EditPage({this.expenses});
+  final _formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +37,13 @@ class EditPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             children: [
               FormBuilder(
+                key: _formKey,
                 child: Column(
                   children: [
                     FormBuilderTextField(
                       initialValue: expenses.price,
                       cursorColor: Colors.blueGrey,
-                      name: 'title',
+                      name: 'price',
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: '金額',
@@ -92,7 +94,7 @@ class EditPage extends StatelessWidget {
                         if (date != null) {
                           model.date = Timestamp.fromDate(date);
                         } else {
-                          return null;
+                          model.date = expenses.date;
                         }
                       },
                     ),
@@ -122,8 +124,8 @@ class EditPage extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        await model.update(expenses);
-                        //todo 処理
+                        //await model.update(expenses);
+                        print(model.price);
                         Navigator.pop(context);
                       },
                     ),

@@ -8,6 +8,8 @@ class AddModel extends ChangeNotifier {
   String memo = '';
   Timestamp date;
   List<String> payment = ['現金', 'クレジットカード', 'QRコード', '交通系IC', '電子マネー'];
+  /*TextEditingController priceEditingController = TextEditingController();
+  TextEditingController memoEditingController = TextEditingController();*/
 
   Future add() async {
     final collection = FirebaseFirestore.instance
