@@ -1,5 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:expenses_app/home/home.dart';
+import 'package:expenses_app/screens/home/home.dart';
 import 'package:flutter/material.dart';
 
 //サインイン、サインアップ成功時のダイアログ

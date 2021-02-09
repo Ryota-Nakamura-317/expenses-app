@@ -9,6 +9,7 @@ class HomePageModel extends ChangeNotifier {
   final userId = FirebaseAuth.instance.currentUser.uid;
   CalendarController calendarController = CalendarController();
   List<ExpensesUser> expensesList = [];
+  int _currentIndex = 0;
 
   void onDaySelected(DateTime date, event, _) {
     Timestamp selectedDay =
@@ -33,5 +34,11 @@ class HomePageModel extends ChangeNotifier {
 
   Future signOut() async {
     await _auth.signOut();
+  }
+
+  get currentIndex => _currentIndex;
+  set currentIndex(int index) {
+    _currentIndex = index;
+    notifyListeners();
   }
 }
