@@ -1,9 +1,9 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:expenses_app/screens/home/home.dart';
+import 'package:expenses_app/screens/screen.dart';
 import 'package:flutter/material.dart';
 
 //サインイン、サインアップ成功時のダイアログ
-Future SuccessShowDialog(BuildContext context, String title) async {
+void SuccessShowDialog(BuildContext context, String title) {
   AwesomeDialog(
     context: context,
     animType: AnimType.LEFTSLIDE,
@@ -15,7 +15,7 @@ Future SuccessShowDialog(BuildContext context, String title) async {
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => HomePage(),
+          builder: (BuildContext context) => ScreenChangePage(),
         ),
       );
     },
@@ -24,7 +24,7 @@ Future SuccessShowDialog(BuildContext context, String title) async {
 }
 
 //サインイン、サインアップ失敗時のダイアログ
-Future ErrorShowDialog(BuildContext context, String title) {
+void ErrorShowDialog(BuildContext context, String title) {
   AwesomeDialog(
     context: context,
     dialogType: DialogType.ERROR,
@@ -39,7 +39,7 @@ Future ErrorShowDialog(BuildContext context, String title) {
 }
 
 //削除時ダイアログ
-Future DeleteDialog(BuildContext context, String title) {
+void DeleteDialog(BuildContext context, String title) {
   AwesomeDialog(
     context: context,
     dialogType: DialogType.WARNING,

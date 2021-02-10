@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expenses_app/model/expenses_data.dart';
+import 'package:expenses_app/model/todo_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ class AddModel extends ChangeNotifier {
   String payments = '';
   String memo = '';
   String category = '';
+  String newTodoText = '';
   Timestamp date;
   List<String> payment = ['現金', 'クレジットカード', 'QRコード', '交通系IC', '電子マネー'];
   List<String> categoryList = [
@@ -22,8 +24,6 @@ class AddModel extends ChangeNotifier {
     '交際費',
     '交通費',
   ];
-
-  //TextEditingController memoEditingController = TextEditingController();
 
   Future add(ExpensesUser expenses) async {
     final userId = FirebaseAuth.instance.currentUser.uid;
@@ -67,5 +67,19 @@ class AddModel extends ChangeNotifier {
         .collection('expenses')
         .doc(expenses.documentId)
         .delete();
+  }
+
+  Future addTodo(TodoData todoData) async {
+    final userId = FirebaseAuth.instance.currentUser.uid;
+    final collection = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('todo')
+        .doc();
+    await collection.set({
+      'title': newTodoText,
+      'date': date,
+      'createdAt': Timestamp.now(),
+    });
   }
 }

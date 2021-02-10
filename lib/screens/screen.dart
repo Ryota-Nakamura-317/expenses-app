@@ -1,14 +1,13 @@
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
-import 'package:expenses_app/screens/chart/chart_page.dart';
 import 'package:expenses_app/screens/home/home.dart';
 import 'package:expenses_app/screens/home/home_model.dart';
+import 'package:expenses_app/screens/todo/todo_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ScreenChangePage extends StatelessWidget {
   final List<Widget> _pageList = <Widget>[
     HomePage(),
-    ChartPage(),
+    TodoPage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -20,41 +19,26 @@ class ScreenChangePage extends StatelessWidget {
             body: _pageList[model.currentIndex],
             bottomNavigationBar:
                 Consumer<HomePageModel>(builder: (context, model, child) {
-              return BubbleBottomBar(
-                opacity: .2,
+              return BottomNavigationBar(
+                type: BottomNavigationBarType.shifting,
+                unselectedItemColor: Colors.grey,
+                fixedColor: Colors.blueGrey,
+                backgroundColor: Colors.white,
                 currentIndex: model.currentIndex,
                 onTap: (index) {
                   model.currentIndex = index;
                 },
-                borderRadius: BorderRadius.vertical(top: Radius.circular(5)),
-                elevation: 10.0,
-                hasNotch: true, //new
-                hasInk: true, //new, gives a cute ink effect
-                inkColor: Colors
-                    .black12, //optional, uses theme color if not specified
-                items: <BubbleBottomBarItem>[
-                  BubbleBottomBarItem(
-                      backgroundColor: Colors.blueGrey,
-                      icon: Icon(
-                        Icons.house,
-                        color: Colors.black,
-                      ),
-                      activeIcon: Icon(
-                        Icons.house,
-                        color: Colors.blueGrey,
-                      ),
-                      title: Text("Home")),
-                  BubbleBottomBarItem(
-                      backgroundColor: Colors.purple,
-                      icon: Icon(
-                        Icons.bar_chart,
-                        color: Colors.black,
-                      ),
-                      activeIcon: Icon(
-                        Icons.bar_chart,
-                        color: Colors.purple,
-                      ),
-                      title: Text("Logs")),
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.home,
+                    ),
+                    label: '支出',
+                  ),
+                  BottomNavigationBarItem(
+                    label: 'Todo',
+                    icon: Icon(Icons.format_list_bulleted),
+                  ),
                 ],
               );
             }),

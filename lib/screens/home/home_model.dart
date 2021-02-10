@@ -8,6 +8,7 @@ class HomePageModel extends ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
   final userId = FirebaseAuth.instance.currentUser.uid;
   CalendarController calendarController = CalendarController();
+  PageController pageController = PageController();
   List<ExpensesUser> expensesList = [];
   int _currentIndex = 0;
 

@@ -163,8 +163,8 @@ class EditPage extends StatelessWidget {
                       ),
                       onPressed: () async {
                         _formKey.currentState.save();
-                        await DeleteDialog(context, '削除しますか？');
-                        model.delete(expenses);
+                        DeleteDialog(context, '削除しますか？');
+                        await model.delete(expenses);
                       },
                     ),
                   ],
