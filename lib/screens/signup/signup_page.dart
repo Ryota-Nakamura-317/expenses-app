@@ -121,9 +121,9 @@ class SignUpPage extends StatelessWidget {
                           if (_formKey.currentState.validate()) {
                             try {
                               await model.signUp();
-                              SuccessShowDialog(context, '登録完了');
+                              successShowDialog(context, '登録完了');
                             } catch (e) {
-                              ErrorShowDialog(context, '正しい情報を入力してください。');
+                              errorShowDialog(context, '正しい情報を入力してください。');
                             }
                           }
                           model.endLoading();

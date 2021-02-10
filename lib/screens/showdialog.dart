@@ -3,7 +3,7 @@ import 'package:expenses_app/screens/screen.dart';
 import 'package:flutter/material.dart';
 
 //サインイン、サインアップ成功時のダイアログ
-void SuccessShowDialog(BuildContext context, String title) {
+void successShowDialog(BuildContext context, String title) {
   AwesomeDialog(
     context: context,
     animType: AnimType.LEFTSLIDE,
@@ -24,7 +24,7 @@ void SuccessShowDialog(BuildContext context, String title) {
 }
 
 //サインイン、サインアップ失敗時のダイアログ
-void ErrorShowDialog(BuildContext context, String title) {
+void errorShowDialog(BuildContext context, String title) {
   AwesomeDialog(
     context: context,
     dialogType: DialogType.ERROR,
@@ -39,7 +39,7 @@ void ErrorShowDialog(BuildContext context, String title) {
 }
 
 //削除時ダイアログ
-void DeleteDialog(BuildContext context, String title) {
+void deleteDialog(BuildContext context, String title) {
   AwesomeDialog(
     context: context,
     dialogType: DialogType.WARNING,
