@@ -45,25 +45,28 @@ class TodoPage extends StatelessWidget {
             body: Consumer<TodoModel>(
               builder: (context, model, child) {
                 final todoList = model.todoList;
-                return ListView(
-                  children: todoList
-                      .map(
-                        (todo) => Card(
-                          margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-                          child: CheckboxListTile(
-                            title: Text(todo.title),
-                            subtitle: Text(
-                                '期限；${model.formatter.format(todo.date.toDate())}'),
-                            value: todo.isDone,
-                            onChanged: (bool value) {
-                              todo.isDone = !todo.isDone;
-                              model.reload();
-                            },
-                          ),
-                        ),
-                      )
-                      .toList(),
-                );
+                return todoList == null
+                    ? Container()
+                    : ListView(
+                        children: todoList
+                            .map(
+                              (todo) => Card(
+                                margin:
+                                    EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+                                child: CheckboxListTile(
+                                  title: Text(todo.title),
+                                  subtitle: Text(
+                                      '期限；${model.formatter.format(todo.date.toDate())}'),
+                                  value: todo.isDone,
+                                  onChanged: (bool value) {
+                                    todo.isDone = !todo.isDone;
+                                    model.reload();
+                                  },
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      );
               },
             ),
             floatingActionButton: FloatingActionButton(
