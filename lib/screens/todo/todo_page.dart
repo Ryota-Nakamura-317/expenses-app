@@ -48,15 +48,18 @@ class TodoPage extends StatelessWidget {
                 return ListView(
                   children: todoList
                       .map(
-                        (todo) => CheckboxListTile(
-                          title: Text(todo.title),
-                          subtitle: Text(
-                              '期限；${model.formatter.format(todo.date.toDate())}'),
-                          value: todo.isDone,
-                          onChanged: (bool value) {
-                            todo.isDone = !todo.isDone;
-                            model.reload();
-                          },
+                        (todo) => Card(
+                          margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+                          child: CheckboxListTile(
+                            title: Text(todo.title),
+                            subtitle: Text(
+                                '期限；${model.formatter.format(todo.date.toDate())}'),
+                            value: todo.isDone,
+                            onChanged: (bool value) {
+                              todo.isDone = !todo.isDone;
+                              model.reload();
+                            },
+                          ),
                         ),
                       )
                       .toList(),

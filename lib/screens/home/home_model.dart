@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expenses_app/model/expenses_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomePageModel extends ChangeNotifier {
@@ -11,6 +12,7 @@ class HomePageModel extends ChangeNotifier {
   PageController pageController = PageController();
   List<ExpensesUser> expensesList = [];
   int _currentIndex = 0;
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   void onDaySelected(DateTime date, event, _) {
     Timestamp selectedDay =

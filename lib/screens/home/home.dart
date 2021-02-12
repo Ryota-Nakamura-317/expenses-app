@@ -4,6 +4,7 @@ import 'package:expenses_app/screens/home/home_model.dart';
 import 'package:expenses_app/screens/signin_signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:styled_text/styled_text.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomePage extends StatelessWidget {
@@ -117,6 +118,119 @@ class HomePage extends StatelessWidget {
                                       );
                                     },
                                   ),
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('詳細'),
+                                            content: Container(
+                                                width: 500.0,
+                                                height: 450.0,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Expanded(
+                                                      child: ListView(
+                                                        shrinkWrap: true,
+                                                        children: [
+                                                          ListTile(
+                                                            leading: Icon(Icons
+                                                                .attach_money),
+                                                            title: StyledText(
+                                                                text:
+                                                                    '金額：<bold>${expenses.price} 円</bold>',
+                                                                styles: {
+                                                                  'bold': TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)
+                                                                }),
+                                                          ),
+                                                          Divider(
+                                                              color: Colors
+                                                                  .blueGrey),
+                                                          ListTile(
+                                                            leading: Icon(
+                                                                Icons.payment),
+                                                            title: StyledText(
+                                                                text:
+                                                                    '支払い方法：<bold>${expenses.payments}</bold>',
+                                                                styles: {
+                                                                  'bold': TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)
+                                                                }),
+                                                          ),
+                                                          Divider(
+                                                              color: Colors
+                                                                  .blueGrey),
+                                                          ListTile(
+                                                            leading: Icon(
+                                                                Icons.category),
+                                                            title: StyledText(
+                                                                text:
+                                                                    'カテゴリ：<bold>${expenses.category}</bold>',
+                                                                styles: {
+                                                                  'bold': TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)
+                                                                }),
+                                                          ),
+                                                          Divider(
+                                                              color: Colors
+                                                                  .blueGrey),
+                                                          ListTile(
+                                                            leading: Icon(Icons
+                                                                .calendar_today),
+                                                            title: StyledText(
+                                                                text:
+                                                                    '日付：<bold>${model.formatter.format(expenses.date.toDate())}</bold>',
+                                                                styles: {
+                                                                  'bold': TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)
+                                                                }),
+                                                          ),
+                                                          Divider(
+                                                              color: Colors
+                                                                  .blueGrey),
+                                                          ListTile(
+                                                            leading: Icon(Icons
+                                                                .text_fields),
+                                                            title: StyledText(
+                                                                text:
+                                                                    'メモ：<bold>${expenses.memo}</bold>',
+                                                                styles: {
+                                                                  'bold': TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)
+                                                                }),
+                                                          ),
+                                                          SizedBox(
+                                                              height: 40.0),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    RaisedButton(
+                                                        child: Text('戻る'),
+                                                        textColor: Colors.white,
+                                                        color: Colors.blueGrey,
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        })
+                                                  ],
+                                                )),
+                                          );
+                                        });
+                                  },
                                 ),
                               ))
                           .toList();

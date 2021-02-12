@@ -42,12 +42,19 @@ class AddPricePage extends StatelessWidget {
                     FormBuilderTextField(
                       cursorColor: Colors.blueGrey,
                       name: 'title',
+                      textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: '金額',
                         border: InputBorder.none,
                         prefixIcon: Icon(Icons.attach_money),
                       ),
+                      validator: (value) {
+                        if (value == null) {
+                          return '金額を入力してください。';
+                        }
+                        return null;
+                      },
                       onChanged: (String price) {
                         model.price = price;
                       },
@@ -61,8 +68,12 @@ class AddPricePage extends StatelessWidget {
                       ),
                       allowClear: true,
                       hint: Text('支払い方法'),
-                      validator: FormBuilderValidators.compose(
-                          [FormBuilderValidators.required(context)]),
+                      validator: (value) {
+                        if (value == null) {
+                          return '支払い方法を選択してください。';
+                        }
+                        return null;
+                      },
                       items: model.payment
                           .map((payment) => DropdownMenuItem(
                                 value: payment,
@@ -82,8 +93,12 @@ class AddPricePage extends StatelessWidget {
                       ),
                       allowClear: true,
                       hint: Text('カテゴリ'),
-                      validator: FormBuilderValidators.compose(
-                          [FormBuilderValidators.required(context)]),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'カテゴリを選択してください。';
+                        }
+                        return null;
+                      },
                       items: model.categoryList
                           .map((categoryList) => DropdownMenuItem(
                                 value: categoryList,
@@ -105,6 +120,12 @@ class AddPricePage extends StatelessWidget {
                         border: InputBorder.none,
                         prefixIcon: Icon(Icons.calendar_today),
                       ),
+                      validator: (DateTime dateTime) {
+                        if (dateTime == null) {
+                          return '日付が未入力です。';
+                        }
+                        return null;
+                      },
                       //DateTime型からTimeStamp型にしてdateに代入
                       onChanged: (DateTime date) {
                         if (date != null) {
@@ -132,17 +153,16 @@ class AddPricePage extends StatelessWidget {
                     Divider(),
                     SizedBox(height: 50.0),
                     RaisedButton(
-                      child: Text(
-                        '追加',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
+                      child: Text('追加'),
+                      textColor: Colors.white,
+                      color: Colors.blueGrey,
                       onPressed: () async {
-                        _formKey.currentState.save();
-                        await model.add(expenses);
-                        //todo 処理
-                        Navigator.pop(context);
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          await model.add(expenses);
+                          //todo 処理
+                          Navigator.pop(context);
+                        }
                       },
                     ),
                   ],

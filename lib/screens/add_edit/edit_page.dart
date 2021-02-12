@@ -33,146 +33,148 @@ class EditPage extends StatelessWidget {
           elevation: 10.0,
           backgroundColor: Colors.white,
         ),
-        body: Consumer<AddModel>(builder: (context, model, child) {
-          return ListView(
-            padding: const EdgeInsets.all(16.0),
-            children: [
-              FormBuilder(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    FormBuilderTextField(
-                      initialValue: expenses.price,
-                      cursorColor: Colors.blueGrey,
-                      name: 'price',
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: '金額',
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.attach_money),
-                      ),
-                      onSaved: (String price) {
-                        model.price = price;
-                      },
-                    ),
-                    Divider(),
-                    FormBuilderDropdown(
-                      initialValue: expenses.payments,
-                      name: 'payments',
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.payment),
-                        border: InputBorder.none,
-                      ),
-                      allowClear: true,
-                      hint: Text('支払い方法'),
-                      validator: FormBuilderValidators.compose(
-                          [FormBuilderValidators.required(context)]),
-                      items: model.payment
-                          .map((payment) => DropdownMenuItem(
-                                value: payment,
-                                child: Text('$payment'),
-                              ))
-                          .toList(),
-                      onSaved: (String payments) {
-                        model.payments = payments;
-                      },
-                    ),
-                    Divider(),
-                    FormBuilderDropdown(
-                      initialValue: expenses.category,
-                      name: 'category',
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.category),
-                        border: InputBorder.none,
-                      ),
-                      allowClear: true,
-                      hint: Text('カテゴリ'),
-                      validator: FormBuilderValidators.compose(
-                          [FormBuilderValidators.required(context)]),
-                      items: model.categoryList
-                          .map((categoryList) => DropdownMenuItem(
-                                value: categoryList,
-                                child: Text('$categoryList'),
-                              ))
-                          .toList(),
-                      onSaved: (String category) {
-                        model.category = category;
-                      },
-                    ),
-                    Divider(),
-                    FormBuilderDateTimePicker(
-                      name: 'date',
-                      currentDate: expenses.date.toDate(),
-                      initialValue: expenses.date.toDate(),
-                      initialDate: expenses.date.toDate(),
-                      inputType: InputType.date,
-                      format: DateFormat('yyyy/MM/dd(E) ', "ja_JP"),
-                      decoration: InputDecoration(
-                        hintText: 'タップして日付を選択',
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.calendar_today),
-                      ),
-                      //DateTime型からTimeStamp型にしてdateに代入
-                      onSaved: (DateTime date) {
-                        if (date != null) {
-                          model.date = Timestamp.fromDate(date);
-                        } else {
-                          model.date = expenses.date;
-                        }
-                      },
-                    ),
-                    Divider(),
-                    FormBuilderTextField(
-                      initialValue: expenses.memo,
-                      cursorColor: Colors.blueGrey,
-                      name: 'メモ',
-                      maxLines: 20,
-                      minLines: 1,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'メモ',
-                        prefixIcon: Icon(Icons.text_fields),
-                      ),
-                      onSaved: (String memo) {
-                        model.memo = memo;
-                      },
-                    ),
-                    Divider(),
-                    SizedBox(height: 50.0),
-                    RaisedButton(
-                      child: Text(
-                        '変更',
-                        style: TextStyle(
-                          color: Colors.black,
+        body: Consumer<AddModel>(
+          builder: (context, model, child) {
+            return ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: [
+                FormBuilder(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      FormBuilderTextField(
+                        initialValue: expenses.price,
+                        cursorColor: Colors.blueGrey,
+                        name: 'price',
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          hintText: '金額',
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.attach_money),
                         ),
+                        onSaved: (String price) {
+                          model.price = price;
+                        },
                       ),
-                      onPressed: () async {
-                        _formKey.currentState.save();
-                        await model.update(expenses);
-                        Navigator.pop(context);
-                      },
-                    ),
-                    SizedBox(height: 20.0),
-                    RaisedButton(
-                      color: Colors.orangeAccent,
-                      child: Text(
-                        '削除',
-                        style: TextStyle(
-                          color: Colors.white,
+                      Divider(),
+                      FormBuilderDropdown(
+                        initialValue: expenses.payments,
+                        name: 'payments',
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.payment),
+                          border: InputBorder.none,
                         ),
+                        allowClear: true,
+                        hint: Text('支払い方法'),
+                        validator: FormBuilderValidators.compose(
+                            [FormBuilderValidators.required(context)]),
+                        items: model.payment
+                            .map((payment) => DropdownMenuItem(
+                                  value: payment,
+                                  child: Text('$payment'),
+                                ))
+                            .toList(),
+                        onSaved: (String payments) {
+                          model.payments = payments;
+                        },
                       ),
-                      onPressed: () async {
-                        _formKey.currentState.save();
-                        deleteDialog(context, '削除しますか？');
-                        await model.delete(expenses);
-                      },
-                    ),
-                  ],
+                      Divider(),
+                      FormBuilderDropdown(
+                        initialValue: expenses.category,
+                        name: 'category',
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.category),
+                          border: InputBorder.none,
+                        ),
+                        allowClear: true,
+                        hint: Text('カテゴリ'),
+                        validator: FormBuilderValidators.compose(
+                            [FormBuilderValidators.required(context)]),
+                        items: model.categoryList
+                            .map((categoryList) => DropdownMenuItem(
+                                  value: categoryList,
+                                  child: Text('$categoryList'),
+                                ))
+                            .toList(),
+                        onSaved: (String category) {
+                          model.category = category;
+                        },
+                      ),
+                      Divider(),
+                      FormBuilderDateTimePicker(
+                        name: 'date',
+                        currentDate: expenses.date.toDate(),
+                        initialValue: expenses.date.toDate(),
+                        initialDate: expenses.date.toDate(),
+                        inputType: InputType.date,
+                        format: DateFormat('yyyy/MM/dd(E) ', "ja_JP"),
+                        decoration: InputDecoration(
+                          hintText: 'タップして日付を選択',
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.calendar_today),
+                        ),
+                        //DateTime型からTimeStamp型にしてdateに代入
+                        onSaved: (DateTime date) {
+                          if (date != null) {
+                            model.date = Timestamp.fromDate(date);
+                          } else {
+                            model.date = expenses.date;
+                          }
+                        },
+                      ),
+                      Divider(),
+                      FormBuilderTextField(
+                        initialValue: expenses.memo,
+                        cursorColor: Colors.blueGrey,
+                        name: 'メモ',
+                        maxLines: 20,
+                        minLines: 1,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'メモ',
+                          prefixIcon: Icon(Icons.text_fields),
+                        ),
+                        onSaved: (String memo) {
+                          model.memo = memo;
+                        },
+                      ),
+                      Divider(),
+                      SizedBox(height: 50.0),
+                      RaisedButton(
+                        child: Text(
+                          '変更',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                        onPressed: () async {
+                          _formKey.currentState.save();
+                          await model.update(expenses);
+                          Navigator.pop(context);
+                        },
+                      ),
+                      SizedBox(height: 20.0),
+                      RaisedButton(
+                        color: Colors.orangeAccent,
+                        child: Text(
+                          '削除',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () async {
+                          _formKey.currentState.save();
+                          deleteDialog(context, '削除しました。');
+                          await model.delete(expenses);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          );
-        }),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

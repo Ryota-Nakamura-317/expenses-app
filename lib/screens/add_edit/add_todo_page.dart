@@ -42,11 +42,18 @@ class AddTodoPage extends StatelessWidget {
                     FormBuilderTextField(
                       cursorColor: Colors.blueGrey,
                       name: 'newTodoText',
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         hintText: 'やること',
                         border: InputBorder.none,
                         prefixIcon: Icon(Icons.attach_money),
                       ),
+                      validator: (value) {
+                        if (value == null) {
+                          return '入力してください。';
+                        }
+                        return null;
+                      },
                       onChanged: (String newTodoText) {
                         model.newTodoText = newTodoText;
                       },
@@ -54,14 +61,21 @@ class AddTodoPage extends StatelessWidget {
                     Divider(),
                     FormBuilderDateTimePicker(
                       name: 'date',
+                      textInputAction: TextInputAction.next,
                       initialDate: DateTime.now(),
                       inputType: InputType.date,
-                      format: DateFormat('yMMMMEEEEd'),
+                      format: DateFormat('yyyy-MM-dd'),
                       decoration: InputDecoration(
                         hintText: 'いつまでに？',
                         border: InputBorder.none,
                         prefixIcon: Icon(Icons.calendar_today),
                       ),
+                      validator: (DateTime dateTime) {
+                        if (dateTime == null) {
+                          return '日付が未入力です。';
+                        }
+                        return null;
+                      },
                       //DateTime型からTimeStamp型にしてdateに代入
                       onChanged: (DateTime date) {
                         if (date != null) {
@@ -74,17 +88,16 @@ class AddTodoPage extends StatelessWidget {
                     Divider(),
                     SizedBox(height: 50.0),
                     RaisedButton(
-                      child: Text(
-                        '追加',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
+                      child: Text('追加'),
+                      textColor: Colors.white,
+                      color: Colors.blueGrey,
                       onPressed: () async {
-                        _formKey.currentState.save();
-                        await model.addTodo(todoData);
-                        //todo 処理
-                        Navigator.pop(context);
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          await model.addTodo(todoData);
+                          //todo 処理
+                          Navigator.pop(context);
+                        }
                       },
                     ),
                   ],
