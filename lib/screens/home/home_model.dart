@@ -10,6 +10,8 @@ class HomePageModel extends ChangeNotifier {
   final userId = FirebaseAuth.instance.currentUser.uid;
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
   CalendarController calendarController = CalendarController();
+  ScrollController scrollController = ScrollController();
+
   PageController pageController = PageController();
   List<ExpensesUser> expensesList = [];
   int _currentIndex = 0;

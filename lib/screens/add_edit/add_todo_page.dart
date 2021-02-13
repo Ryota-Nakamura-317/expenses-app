@@ -46,7 +46,7 @@ class AddTodoPage extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: 'やること',
                         border: InputBorder.none,
-                        prefixIcon: Icon(Icons.attach_money),
+                        prefixIcon: Icon(Icons.format_list_bulleted),
                       ),
                       validator: (value) {
                         if (value == null) {
