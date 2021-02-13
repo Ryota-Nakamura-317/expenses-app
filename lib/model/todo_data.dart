@@ -7,6 +7,7 @@ class TodoData {
   Timestamp createdAt;
   Timestamp date;
   bool isDone = false;
+  DocumentReference documentReference;
 
   TodoData(DocumentSnapshot doc) {
     this.uid = doc.data()['uid'];
@@ -14,5 +15,6 @@ class TodoData {
     this.documentId = doc.id;
     this.date = doc.data()['date'];
     this.createdAt = doc.data()['createdAt'];
+    this.documentReference = doc.reference;
   }
 }

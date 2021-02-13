@@ -8,11 +8,11 @@ import 'package:table_calendar/table_calendar.dart';
 class HomePageModel extends ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
   final userId = FirebaseAuth.instance.currentUser.uid;
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
   CalendarController calendarController = CalendarController();
   PageController pageController = PageController();
   List<ExpensesUser> expensesList = [];
   int _currentIndex = 0;
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   void onDaySelected(DateTime date, event, _) {
     Timestamp selectedDay =
@@ -38,6 +38,8 @@ class HomePageModel extends ChangeNotifier {
   Future signOut() async {
     await _auth.signOut();
   }
+
+  void getTotalPrice() {}
 
   get currentIndex => _currentIndex;
   set currentIndex(int index) {

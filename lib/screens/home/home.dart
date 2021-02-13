@@ -54,7 +54,6 @@ class HomePage extends StatelessWidget {
                     initialCalendarFormat: CalendarFormat.month,
                     calendarStyle: CalendarStyle(
                       canEventMarkersOverflow: true,
-                      //markersColor: Colors.blueGrey,
                       todayColor: Colors.black,
                       selectedColor: Colors.grey,
                       todayStyle: TextStyle(
@@ -74,21 +73,6 @@ class HomePage extends StatelessWidget {
                     ),
                     startingDayOfWeek: StartingDayOfWeek.sunday,
                     onDaySelected: model.onDaySelected,
-                    /*builders: CalendarBuilders(
-                        markersBuilder: (context, date, events, holidays) {
-                          final children = <Widget>[];
-                          if (events.isNotEmpty) {
-                            children.add(
-                              Positioned(
-                                right: 1,
-                                bottom: 1,
-                                child: _buildEventsMarker(date, events),
-                              ),
-                            );
-                          }
-                          return children;
-                        },
-                      ),*/
                   ),
                   Consumer<HomePageModel>(
                     builder: (context, model, child) {

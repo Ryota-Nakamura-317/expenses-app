@@ -9,6 +9,7 @@ class ExpensesUser {
   String category;
   Timestamp date;
   Timestamp createdAt;
+  DateTime eventData;
 
   ExpensesUser(DocumentSnapshot doc) {
     this.uid = doc.data()['uid'];
