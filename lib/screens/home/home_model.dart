@@ -11,10 +11,10 @@ class HomePageModel extends ChangeNotifier {
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
   CalendarController calendarController = CalendarController();
   ScrollController scrollController = ScrollController();
-
   PageController pageController = PageController();
   List<ExpensesUser> expensesList = [];
   int _currentIndex = 0;
+  int totalPrice;
 
   void onDaySelected(DateTime date, event, _) {
     Timestamp selectedDay =
@@ -32,6 +32,7 @@ class HomePageModel extends ChangeNotifier {
     querySnapshot.listen((snapshot) {
       final docs = snapshot.docs;
       final expensesList = docs.map((doc) => ExpensesUser(doc)).toList();
+      expensesList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       this.expensesList = expensesList;
       notifyListeners();
     });
@@ -41,7 +42,30 @@ class HomePageModel extends ChangeNotifier {
     await _auth.signOut();
   }
 
-  void getTotalPrice() {}
+  void getTotalPrice() {
+    final date = DateTime.now();
+    DateTime firstDay = DateTime(date.year, date.month, 1);
+    DateTime nextMonthFirstDay = DateTime(date.year, date.month + 1, 1);
+    DateTime lastDay = nextMonthFirstDay.add(Duration(days: -1));
+    Timestamp firstDate = Timestamp.fromDate(firstDay);
+    Timestamp lastDate = Timestamp.fromDate(lastDay);
+
+    final snapshots = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('expenses')
+        .where('date', isGreaterThan: firstDate, isLessThan: lastDate)
+        .snapshots();
+
+    snapshots.listen((snapshot) {
+      final docs = snapshot.docs;
+      final priceList =
+          docs.map((doc) => int.parse(doc.data()['price'])).toList();
+      final sum = priceList.reduce((curr, next) => curr + next);
+      this.totalPrice = sum;
+      notifyListeners();
+    });
+  }
 
   get currentIndex => _currentIndex;
   set currentIndex(int index) {

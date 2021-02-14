@@ -10,8 +10,8 @@ import 'package:table_calendar/table_calendar.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<HomePageModel>(
-      create: (_) => HomePageModel(),
+    return ChangeNotifierProvider.value(
+      value: HomePageModel()..getTotalPrice(),
       child: Consumer<HomePageModel>(builder: (context, model, child) {
         return Scaffold(
           appBar: AppBar(
@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
             centerTitle: true,
             backgroundColor: Colors.white,
             title: Text(
-              '支出管理',
+              '当月合計：${model.totalPrice}円',
               style: TextStyle(
                 fontStyle: FontStyle.italic,
                 color: Colors.black,
@@ -219,6 +219,7 @@ class HomePage extends StatelessWidget {
                               ))
                           .toList();
                       return ListView(
+                        controller: model.scrollController,
                         shrinkWrap: true,
                         children: listTiles,
                       );
@@ -241,7 +242,8 @@ class HomePage extends StatelessWidget {
               );
             },
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniCenterFloat,
         );
       }),
     );
