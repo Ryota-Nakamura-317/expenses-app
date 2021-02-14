@@ -16,10 +16,11 @@ class TodoPage extends StatelessWidget {
             elevation: 10.0,
             backgroundColor: Colors.white,
             title: Text(
-              'Todoリスト',
+              '',
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.teal[900],
                 fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold,
               ),
             ),
             actions: [
@@ -35,7 +36,7 @@ class TodoPage extends StatelessWidget {
                     '完了',
                     style: TextStyle(
                         color: isActive
-                            ? Colors.black
+                            ? Colors.blueGrey[800]
                             : Colors.black.withOpacity(0.0)),
                   ),
                 );
@@ -69,7 +70,7 @@ class TodoPage extends StatelessWidget {
             },
           ),
           floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.blueGrey,
+            backgroundColor: Colors.blueGrey[400],
             child: Icon(Icons.add),
             onPressed: () async {
               await Navigator.push(
@@ -81,7 +82,8 @@ class TodoPage extends StatelessWidget {
               );
             },
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniEndFloat,
         ));
   }
 }
